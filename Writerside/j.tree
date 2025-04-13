@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE instance-profile
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
+
+<instance-profile id="j"
+                 name="Jakarta"
+                 start-page="001-01-jakarta-intro.md">
+
+    <toc-element topic="001-01-jakarta-intro.md"/>
+    <toc-element topic="001-00-Java-Server-Pages-JSP.md">
+        <toc-element topic="001-01-Quelques-pattern-frequents.md"/>
+    </toc-element>
+    <toc-element topic="002-01-Java-Standard-Tag-Library-JSTL.md"/>
+    <toc-element topic="003-00-Moteur-de-template-Pebble.md"/>
+    <toc-element topic="004-00-Hibernate-et-JPA.md">
+        <toc-element topic="004-01-Les-associations.md"/>
+        <toc-element topic="004-02-JPQL-Jakarta-Persistence-Query-Language.md"/>
+    </toc-element>
+</instance-profile>

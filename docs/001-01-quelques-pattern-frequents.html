@@ -1,0 +1,376 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-04-13T18:06:18.589882"><title>Quelques patterns fr&eacute;quents | Jakarta</title><script type="application/json" id="virtual-toc-data">[{"id":"traitement-d-un-formulaire-avec-la-m-thode-post","level":0,"title":"Traitement d\u0027un formulaire avec la méthode POST","anchor":"#traitement-d-un-formulaire-avec-la-m-thode-post"},{"id":"gestion-des-sessions-et-authentification-minimaliste","level":0,"title":"Gestion des sessions et authentification minimaliste","anchor":"#gestion-des-sessions-et-authentification-minimaliste"},{"id":"gestion-de-l-upload","level":0,"title":"Gestion de l\u0027upload","anchor":"#gestion-de-l-upload"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Quelques patterns fr&eacute;quents | Jakarta"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Jakarta Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/001-01-quelques-pattern-frequents.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Quelques patterns fr&eacute;quents | Jakarta"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/001-01-quelques-pattern-frequents.html#webpage",
+    "url": "writerside-documentation/001-01-quelques-pattern-frequents.html",
+    "name": "Quelques patterns fr&eacute;quents | Jakarta",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Jakarta Help"
+}</script><!-- End Schema.org --></head><body data-id="001-01-Quelques-pattern-frequents" data-main-title="Quelques patterns fréquents" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="001-00-Java-Server-Pages-JSP.md|Java Server Pages (JSP)"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Jakarta  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="001-01-Quelques-pattern-frequents" id="001-01-Quelques-pattern-frequents.md">Quelques patterns fréquents</h1><section class="chapter"><h2 id="traitement-d-un-formulaire-avec-la-m-thode-post" data-toc="traitement-d-un-formulaire-avec-la-m-thode-post">Traitement d'un formulaire avec la m&eacute;thode POST</h2><p id="-cxw178_6"><span class="control" id="-cxw178_15">Structure de l'application</span></p><div class="code-block" data-lang="none">
+myapp/
+├── src/main/java/fr/mvc/app/
+│   └── controller/
+│       └── NameServlet.java
+├── src/main/webapp/
+│   ├── name-form.jsp
+│   ├── result.jsp
+│   └── WEB-INF/
+│       └── web.xml
+└── pom.xml
+
+</div><p id="-cxw178_8"><span class="control" id="-cxw178_16">La servlet</span></p><div class="code-block" data-lang="java">
+package fr.mvc.app.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet(&quot;/name&quot;)
+public class NameServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    // Affichage du formulaire
+    @Override
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response)
+            throws ServletException, IOException {
+        // Affiche la page du formulaire
+        request.getRequestDispatcher(&quot;name-form.jsp&quot;)
+                .forward(request, response);
+    }
+
+    // Traitement du formulaire
+    @Override
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
+            throws ServletException, IOException {
+        // Récupération du nom envoyé via le formulaire
+        String name = request.getParameter(&quot;name&quot;);
+
+        // Envoi du nom à la page de résultat
+        request.setAttribute(&quot;userName&quot;, name);
+
+        // Redirection vers la page de résultat
+        request.getRequestDispatcher(&quot;result.jsp&quot;)
+                .forward(request, response);
+    }
+}
+
+</div><p id="-cxw178_10"><span class="control" id="-cxw178_17">Le formulaire</span></p><div class="code-block" data-lang="markup">
+&lt;!-- name-form.jsp --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Formulaire de nom&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Entrez votre nom&lt;/h2&gt;
+    &lt;form action=&quot;name&quot; method=&quot;post&quot;&gt;
+        &lt;label for=&quot;name&quot;&gt;Nom :&lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; required&gt;
+        &lt;button type=&quot;submit&quot;&gt;Envoyer&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div><p id="-cxw178_12"><span class="control" id="-cxw178_18">Le r&eacute;sultat</span></p><div class="code-block" data-lang="markup">
+&lt;!-- result.jsp --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Résultat&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Bonjour, 
+        &lt;%= request.getAttribute(&quot;userName&quot;) != null ? 
+            request.getAttribute(&quot;userName&quot;) : &quot;inconnu&quot; %&gt;!
+    &lt;/h2&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div><section class="chapter"><h3 id="exercice" data-toc="exercice">Exercice</h3><p id="-cxw178_19">Quelques exercices pour pratiquer les points suivants :</p><ul class="list _bullet" id="-cxw178_20"><li class="list__item" id="-cxw178_23"><p id="-cxw178_28">Utilisation des m&eacute;thodes doGet et doPost dans les servlets.</p></li><li class="list__item" id="-cxw178_24"><p id="-cxw178_29">Manipulation des donn&eacute;es re&ccedil;ues depuis les formulaires.</p></li><li class="list__item" id="-cxw178_25"><p id="-cxw178_30">Redirection vers des pages JSP pour afficher les r&eacute;sultats.</p></li><li class="list__item" id="-cxw178_26"><p id="-cxw178_31">V&eacute;rification et validation des donn&eacute;es saisies.</p></li><li class="list__item" id="-cxw178_27"><p id="-cxw178_32">Organisation de l'architecture MVC avec Jakarta Servlets et JSP.</p></li></ul><section class="chapter"><h4 id="formulaire-de-calcul-de-l-ge" data-toc="formulaire-de-calcul-de-l-ge">Formulaire de calcul de l'&acirc;ge</h4><p id="-cxw178_33"><span class="control" id="-cxw178_36">Objectif :</span> Calculer l'&acirc;ge &agrave; partir de l'ann&eacute;e de naissance.</p><p id="-cxw178_34"><span class="control" id="-cxw178_37">D&eacute;tails :</span></p><ul class="list _bullet" id="-cxw178_35"><li class="list__item" id="-cxw178_38"><p id="-cxw178_41">Page JSP avec un formulaire demandant l'ann&eacute;e de naissance.</p></li><li class="list__item" id="-cxw178_39"><p id="-cxw178_42">Servlet qui calcule l'&acirc;ge &agrave; partir de l'ann&eacute;e saisie et de l'ann&eacute;e courante.</p></li><li class="list__item" id="-cxw178_40"><p id="-cxw178_43">Page de r&eacute;sultat affichant l'&acirc;ge calcul&eacute;.</p></li></ul></section><section class="chapter"><h4 id="formulaire-de-conversion-de-devises" data-toc="formulaire-de-conversion-de-devises">Formulaire de conversion de devises</h4><p id="-cxw178_44"><span class="control" id="-cxw178_47">Objectif</span>: Convertir un montant d'une devise &agrave; une autre.</p><p id="-cxw178_45"><span class="control" id="-cxw178_48">D&eacute;tails</span>:</p><ul class="list _bullet" id="-cxw178_46"><li class="list__item" id="-cxw178_49"><p id="-cxw178_52">Page JSP avec un formulaire pour saisir le montant, la devise source et la devise cible.</p></li><li class="list__item" id="-cxw178_50"><p id="-cxw178_53">Servlet qui utilise un taux de conversion fixe pour calculer le montant converti.</p></li><li class="list__item" id="-cxw178_51"><p id="-cxw178_54">Page de r&eacute;sultat affichant la somme convertie.</p></li></ul></section></section></section><section class="chapter"><h2 id="gestion-des-sessions-et-authentification-minimaliste" data-toc="gestion-des-sessions-et-authentification-minimaliste">Gestion des sessions et authentification minimaliste</h2><p id="-cxw178_55"><span class="control" id="-cxw178_59">Structure de l'application</span></p><div class="code-block" data-lang="none">
+myapp/
+├── src/main/java/fr/mvc/app/controller/
+│   ├── LoginServlet.java
+│   ├── WelcomeServlet.java
+│   └── LogoutServlet.java
+├── src/main/webapp/
+│   ├── auth/
+│   │    ├── login.jsp
+│   │    ├── welcome.jsp
+│   │    └── logout.jsp
+│   └── WEB-INF/
+│       └── web.xml
+└── pom.xml
+</div><section class="chapter"><h3 id="les-servlets" data-toc="les-servlets">Les servlets</h3><p id="-cxw178_60"><span class="control" id="-cxw178_66">LoginServlet</span></p><div class="code-block" data-lang="java">
+package fr.mvc.app.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+
+@WebServlet(&quot;/login&quot;)
+public class LoginServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    protected void doGet(HttpServletRequest request, 
+                         HttpServletResponse response) 
+                         throws ServletException, IOException {
+        // Redirection vers la page de connexion
+        request.getRequestDispatcher(&quot;/auth/login.jsp&quot;)
+               .forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, 
+                          HttpServletResponse response) 
+                          throws ServletException, IOException {
+        // Récupération du nom d'utilisateur
+        String username = request.getParameter(&quot;username&quot;);
+
+        // Création de la session
+        HttpSession session = request.getSession();
+        session.setAttribute(&quot;userName&quot;, username);
+
+        // Redirection vers la page de bienvenue
+        response.sendRedirect(&quot;welcome&quot;);
+    }
+}
+</div><p id="-cxw178_62"><span class="control" id="-cxw178_67">WelcomeServlet</span></p><div class="code-block" data-lang="java">
+package fr.mvc.app.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+
+@WebServlet(&quot;/welcome&quot;)
+public class WelcomeServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    protected void doGet(HttpServletRequest request, 
+                         HttpServletResponse response) 
+                         throws ServletException, IOException {
+        // Vérification de la session
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute(&quot;userName&quot;) == null) {
+            response.sendRedirect(&quot;login&quot;);
+            return;
+        }
+
+        // Redirection vers la page de bienvenue
+        request.getRequestDispatcher(&quot;/auth/welcome.jsp&quot;)
+               .forward(request, response);
+    }
+}
+</div><p id="-cxw178_64"><span class="control" id="-cxw178_68">LogoutServlet</span></p><div class="code-block" data-lang="java">
+package fr.mvc.app.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+
+@WebServlet(&quot;/logout&quot;)
+public class LogoutServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    protected void doGet(HttpServletRequest request, 
+                         HttpServletResponse response) 
+                         throws ServletException, IOException {
+        // Invalidation de la session
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        // Redirection vers la page de déconnexion
+        request.getRequestDispatcher(&quot;/auth/logout.jsp&quot;)
+               .forward(request, response);
+    }
+}
+</div></section><section class="chapter"><h3 id="les-jsp" data-toc="les-jsp">Les JSP</h3><p id="-cxw178_69"><span class="control" id="-cxw178_75">login.jsp</span></p><div class="code-block" data-lang="markup">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Connexion&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Connexion&lt;/h2&gt;
+    &lt;form action=&quot;login&quot; method=&quot;post&quot;&gt;
+        &lt;label for=&quot;username&quot;&gt;Nom d'utilisateur :&lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;username&quot; name=&quot;username&quot; required&gt;
+        &lt;button type=&quot;submit&quot;&gt;Se connecter&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div><p id="-cxw178_71"><span class="control" id="-cxw178_76">welcome.jsp</span></p><div class="code-block" data-lang="markup">
+&lt;% 
+    String username = (String) session.getAttribute(&quot;userName&quot;);
+%&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Bienvenue&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Bienvenue, &lt;%= username %&gt; !&lt;/h2&gt;
+    &lt;p&gt;Vous êtes connecté.&lt;/p&gt;
+    &lt;a href=&quot;logout&quot;&gt;Se déconnecter&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div><p id="-cxw178_73"><span class="control" id="-cxw178_77">logout.jsp</span></p><div class="code-block" data-lang="markup">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Déconnexion&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Vous êtes déconnecté.&lt;/h2&gt;
+    &lt;a href=&quot;login&quot;&gt;Retour à la page de connexion&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div></section></section><section class="chapter"><h2 id="gestion-de-l-upload" data-toc="gestion-de-l-upload">Gestion de l'upload</h2><div class="code-block" data-lang="java">
+package fr.mvc.app.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+
+@WebServlet(&quot;/upload&quot;)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 50)
+public class UploadServlet extends HttpServlet {
+
+    private static final String UPLOAD_DIR = &quot;uploads&quot;;
+
+    @Override
+    protected void doPost(
+            HttpServletRequest request, 
+            HttpServletResponse response
+    ) throws ServletException, IOException 
+    {
+        // Récupérer le chemin de sauvegarde
+        String applicationPath = getServletContext().getRealPath(&quot;&quot;);
+        String uploadPath = applicationPath + File.separator + UPLOAD_DIR;
+
+        // Créer le dossier si nécessaire
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) uploadDir.mkdirs();
+
+        for (Part part : request.getParts()) {
+            String originalFileName = Paths.get(part.getSubmittedFileName())
+                                           .getFileName()
+                                           .toString();
+            
+            String fileExtension = getFileExtension(originalFileName);
+            String uniqueFileName = UUID.randomUUID().toString() 
+                                    + fileExtension;
+
+            // Chemin complet du fichier à enregistrer
+            String filePath = uploadPath 
+                              + File.separator 
+                              + uniqueFileName;
+            
+            // Enregistrement du fichier
+            part.write(filePath);
+
+            response.getWriter().println(
+                    &quot;Fichier uploadé avec succès : &quot; + uniqueFileName
+            );
+        }
+    }
+
+    // Méthode pour extraire l'extension du fichier
+    private String getFileExtension(String fileName) {
+        Path path = Paths.get(fileName);
+        String name = path.getFileName().toString();
+        int dotIndex = name.lastIndexOf(&quot;.&quot;);
+        return (dotIndex == -1) ? &quot;&quot; : name.substring(dotIndex);
+    }
+
+
+}
+
+</div><section class="chapter"><h3 id="les-options-de-multipartconfig" data-toc="les-options-de-multipartconfig">Les options de <code class="code" id="-cxw178_83">@MultipartConfig</code></h3><dl id="-cxw178_82" data-style="title-top"><dt id="-cxw178_84" data-expandable="false"><code class="code" id="-cxw178_89">fileSizeThreshold</code></dt><dd><p id="-cxw178_88">Taille limite en octets avant que le fichier ne soit &eacute;crit sur le disque. Si la taille est inf&eacute;rieure &agrave; ce seuil le fichier sera stock&eacute; en m&eacute;moire vive.</p></dd><dt id="-cxw178_85" data-expandable="false"><code class="code" id="-cxw178_92">maxFileSize</code></dt><dd><p id="-cxw178_91">Taille maximale d'un seul fichier upload&eacute;.</p></dd><dt id="-cxw178_86" data-expandable="false"><code class="code" id="-cxw178_95">maxRequestSize</code></dt><dd><p id="-cxw178_94">Taille maximale pour l'ensemble de la requ&ecirc;te, c'est-&agrave;-dire tous les fichiers et autres param&egrave;tres du formulaire combin&eacute;s.</p></dd></dl></section><section class="chapter"><h3 id="inf-rer-le-mime-type" data-toc="inf-rer-le-mime-type">Inf&eacute;rer le mime type</h3><p id="-cxw178_96">La m&eacute;thode <code class="code" id="-cxw178_99">probeContentType</code> de <code class="code" id="-cxw178_100">nio</code> permet de conna&icirc;tre le mime type d'un fichier sans passer par l'extension. Voici une classe utilitaire qui r&eacute;alise la conversion.</p><div class="code-block" data-lang="java">
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+public class MimeTypeUtils {
+
+    private static final Map&lt;String, String&gt; mimeToExtensionMap = new HashMap&lt;&gt;();
+
+    static {
+        mimeToExtensionMap.put(&quot;image/jpeg&quot;, &quot;.jpg&quot;);
+        mimeToExtensionMap.put(&quot;image/png&quot;, &quot;.png&quot;);
+        mimeToExtensionMap.put(&quot;image/gif&quot;, &quot;.gif&quot;);
+        mimeToExtensionMap.put(&quot;image/bmp&quot;, &quot;.bmp&quot;);
+        mimeToExtensionMap.put(&quot;image/webp&quot;, &quot;.webp&quot;);
+        mimeToExtensionMap.put(&quot;text/plain&quot;, &quot;.txt&quot;);
+        mimeToExtensionMap.put(&quot;text/html&quot;, &quot;.html&quot;);
+        mimeToExtensionMap.put(&quot;text/csv&quot;, &quot;.csv&quot;);
+        mimeToExtensionMap.put(&quot;text/xml&quot;, &quot;.xml&quot;);
+        mimeToExtensionMap.put(&quot;application/pdf&quot;, &quot;.pdf&quot;);
+        mimeToExtensionMap.put(&quot;application/zip&quot;, &quot;.zip&quot;);
+        mimeToExtensionMap.put(&quot;application/json&quot;, &quot;.json&quot;);
+        mimeToExtensionMap.put(&quot;application/msword&quot;, &quot;.doc&quot;);
+        mimeToExtensionMap.put(&quot;application/vnd.openxmlformats-officedocument.wordprocessingml.document&quot;, &quot;.docx&quot;);
+        mimeToExtensionMap.put(&quot;application/vnd.ms-excel&quot;, &quot;.xls&quot;);
+        mimeToExtensionMap.put(&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;, &quot;.xlsx&quot;);
+        mimeToExtensionMap.put(&quot;application/vnd.ms-powerpoint&quot;, &quot;.ppt&quot;);
+        mimeToExtensionMap.put(&quot;application/vnd.openxmlformats-officedocument.presentationml.presentation&quot;, &quot;.pptx&quot;);
+    }
+
+    public static String getFileExtension(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            String mimeType = Files.probeContentType(path);
+            if (mimeType == null) {
+                return &quot;unknown&quot;;
+            }
+            return mimeToExtensionMap.getOrDefault(mimeType, &quot;unknown&quot;);
+        } catch (IOException e) {
+            return &quot;error&quot;;
+        }
+    }
+}
+
+</div><p id="-cxw178_98">Int&eacute;grer cette classe dans le code de l'upload</p></section></section><div class="last-modified">Last modified: 13 avril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="001-00-java-server-pages-jsp.html" class="navigation-links__prev">Java Server Pages (JSP)</a><a href="002-01-java-standard-tag-library-jstl.html" class="navigation-links__next">Java Standard Tag Library (JSTL)</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.js"></script></body></html>

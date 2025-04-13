@@ -1,0 +1,247 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-04-13T18:06:18.589859"><title>Les associations | Jakarta</title><script type="application/json" id="virtual-toc-data">[{"id":"les-types-d-associations","level":0,"title":"Les types d\u0027associations","anchor":"#les-types-d-associations"},{"id":"les-annotations-en-d-tails","level":0,"title":"Les annotations en détails","anchor":"#les-annotations-en-d-tails"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Les associations | Jakarta"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Jakarta Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/004-01-les-associations.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Les associations | Jakarta"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/004-01-les-associations.html#webpage",
+    "url": "writerside-documentation/004-01-les-associations.html",
+    "name": "Les associations | Jakarta",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Jakarta Help"
+}</script><!-- End Schema.org --></head><body data-id="004-01-Les-associations" data-main-title="Les associations" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="004-00-Hibernate-et-JPA.md|Hibernate et JPA"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Jakarta  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="004-01-Les-associations" id="004-01-Les-associations.md">Les associations</h1><p id="-6f0mpw_3">En JPA (et donc avec Hibernate qui est une impl&eacute;mentation de JPA), les associations entre les entit&eacute;s permettent de mod&eacute;liser les relations entre les objets de mani&egrave;re orient&eacute;e objet, tout en refl&eacute;tant les relations entre les tables dans la base de donn&eacute;es. Ces associations sont d&eacute;finies gr&acirc;ce &agrave; des annotations au sein des entit&eacute;s.</p><section class="chapter"><h2 id="les-types-d-associations" data-toc="les-types-d-associations">Les types d'associations</h2><section class="chapter"><h3 id="onetoone" data-toc="onetoone">OneToOne</h3><p id="-6f0mpw_10">La plus simple des associations qui fait correspondre une instance avec une autre instance.</p><div class="code-block" data-lang="java">
+
+@Entity
+public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+
+    private String name;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = &quot;address_id&quot;)
+    private Address address;
+
+    // getters et setters
+}
+</div><div class="code-block" data-lang="java">
+
+@Entity
+public class Address {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String street;
+
+    // getters et setters
+}
+</div><ul class="list _bullet" id="-6f0mpw_13"><li class="list__item" id="-6f0mpw_14"><p id="-6f0mpw_17">La cl&eacute; &eacute;trang&egrave;re est dans l'entit&eacute; &quot;Person&quot;.</p></li><li class="list__item" id="-6f0mpw_15"><p id="-6f0mpw_18">L'attribut cascade permet de propager les op&eacute;rations (comme persist, merge, etc.).</p></li><li class="list__item" id="-6f0mpw_16"><p id="-6f0mpw_19">L'annotation <code class="code" id="-6f0mpw_20">@JoinColumn</code> sp&eacute;cifie le nom de la clef &eacute;trang&egrave;re qui sera g&eacute;n&eacute;r&eacute;e. Si cette annotation est omise, Hibernate g&eacute;n&eacute;rera un nom de colonne en utilisant le nom de la propri&eacute;t&eacute; de l'entit&eacute; propri&eacute;taire et celui de la clef primaire de l'entit&eacute; associ&eacute;e. Donc dans le cas de l'entit&eacute; <code class="code" id="-6f0mpw_21">Person</code> l'annotation est facultative. Toutefois, elle peut rendre le code plus explicite.</p></li></ul></section><section class="chapter"><h3 id="manytoone-unidrectionelle" data-toc="manytoone-unidrectionelle">ManyToOne unidrectionelle</h3><p id="-6f0mpw_22">Soit deux entit&eacute;s : <code class="code" id="-6f0mpw_25">Order</code> (commande) et <code class="code" id="-6f0mpw_26">Customer</code> (client). Une commande est associ&eacute;e &agrave; un client, mais le client n'a pas besoin de conna&icirc;tre ses commandes. Cela signifie qu'il n'y a pas de relation inverse dans l'entit&eacute; Customer.</p><div class="code-block" data-lang="java">
+import jakarta.persistence.*;
+
+@Entity
+public class Customer {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  
+  private String name;
+
+  // Getters et setters
+}
+</div><div class="code-block" data-lang="java">
+import jakarta.persistence.*;
+
+@Entity
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String product;
+
+    @ManyToOne()
+    private Customer customer;
+
+    // Getters et setters
+}
+</div></section><section class="chapter"><h3 id="manytoone-bidirectionnelle" data-toc="manytoone-bidirectionnelle">ManyToOne bidirectionnelle</h3><p id="-6f0mpw_27">Pour obtenir la liste des commandes li&eacute;es depuis une entit&eacute; Customer, il faut inverser l'association <code class="code" id="-6f0mpw_30">ManyToOne</code> avec une association <code class="code" id="-6f0mpw_31">OneToMany</code> dans l'entit&eacute; cible (ou subordonn&eacute;e, certains emploient m&ecirc;me le terme d'esclave).</p><p id="-6f0mpw_28">L'attribut <code class="code" id="-6f0mpw_32">mappedBy</code> fait r&eacute;f&eacute;rence &agrave; la propri&eacute;t&eacute; dans l'entit&eacute; initiatrice (ici Order) qui porte l'association invers&eacute;e par <code class="code" id="-6f0mpw_33">OneToMany</code>.</p><div class="code-block" data-lang="java">
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+public class Customer {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  private String name;
+
+  @OneToMany(mappedBy = &quot;customer&quot;)
+  private List&lt;Order&gt; orders;
+
+  // Getters et setters
+  
+}
+</div></section><section class="chapter"><h3 id="manytomany" data-toc="manytomany">ManyToMany</h3><p id="-6f0mpw_34">Soit deux entit&eacute;s : Student (&eacute;tudiant) et Course (cours). Dans ce cas, un &eacute;tudiant peut suivre plusieurs cours, et un cours peut &ecirc;tre suivi par plusieurs &eacute;tudiants.</p><p id="-6f0mpw_35"><span class="control" id="-6f0mpw_41">Entit&eacute; Student</span></p><ul class="list _bullet" id="-6f0mpw_36"><li class="list__item" id="-6f0mpw_42"><p id="-6f0mpw_45">Elle contient une collection des cours (Course) associ&eacute;s.</p></li><li class="list__item" id="-6f0mpw_43"><p id="-6f0mpw_46">L'annotation <code class="code" id="-6f0mpw_47">@JoinTable</code> est facultative, mais elle permet de rendre l'association plus explicite.</p></li><li class="list__item" id="-6f0mpw_44"><p id="-6f0mpw_48">La cascade indique les op&eacute;rations (ici la cr&eacute;ation et la mise &agrave; jour) qui seront r&eacute;alis&eacute;e automatiquement sur l'entit&eacute; li&eacute;e lors de la persistence de Student.</p></li></ul><div class="code-block" data-lang="java">
+import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = &quot;students&quot;)
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+        name = &quot;student_course&quot;,
+        joinColumns = @JoinColumn(name = &quot;student_id&quot;),
+        inverseJoinColumns = @JoinColumn(name = &quot;course_id&quot;)
+    )
+    private Set&lt;Course&gt; courses = new HashSet&lt;&gt;();
+
+    // Getters et setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set&lt;Course&gt; getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set&lt;Course&gt; courses) {
+        this.courses = courses;
+    }
+
+    // Méthodes utilitaires pour synchroniser les deux côtés
+    public void addCourse(Course course) {
+        this.courses.add(course);
+        course.getStudents().add(this);
+    }
+
+    public void removeCourse(Course course) {
+        this.courses.remove(course);
+        course.getStudents().remove(this);
+    }
+}
+</div><p id="-6f0mpw_38"><span class="control" id="-6f0mpw_49">L'entit&eacute; Course</span></p><p id="-6f0mpw_39">L'entit&eacute; Course contient une collection d'&eacute;tudiants associ&eacute;s. Elle utilise l'attribut mappedBy pour indiquer que la relation est d&eacute;finie du c&ocirc;t&eacute; de l'entit&eacute; Student.</p><div class="code-block" data-lang="java">
+import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = &quot;courses&quot;)
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String title;
+
+    @ManyToMany(
+            mappedBy = &quot;courses&quot;, 
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    private Set&lt;Student&gt; students = new HashSet&lt;&gt;();
+
+    // Getters et setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Set&lt;Student&gt; getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set&lt;Student&gt; students) {
+        this.students = students;
+    }
+}
+</div></section></section><section class="chapter"><h2 id="les-annotations-en-d-tails" data-toc="les-annotations-en-d-tails">Les annotations en d&eacute;tails</h2><section class="chapter"><h3 id="column" data-toc="column">@Column</h3><section class="chapter"><h4 id="attribut-name" data-toc="attribut-name">Attribut <code class="code" id="-6f0mpw_66">name</code></h4><p id="-6f0mpw_63">Sp&eacute;cifie le nom de la colonne dans la base de donn&eacute;es. Si cet attribut n'est pas d&eacute;fini, le nom de la colonne sera d&eacute;riv&eacute; du nom du champ ou de la propri&eacute;t&eacute; Java.</p><p id="-6f0mpw_64"><span class="control" id="-6f0mpw_67">Exemple :</span></p><div class="code-block" data-lang="java">
+@Column(name = &quot;customer_name&quot;)
+private String name;
+</div></section><section class="chapter"><h4 id="attribut-nullable" data-toc="attribut-nullable">Attribut <code class="code" id="-6f0mpw_72">nullable</code></h4><p id="-6f0mpw_69">Indique si la colonne peut contenir des valeurs nulles. Par d&eacute;faut, la valeur est true, ce qui signifie que les valeurs nulles sont autoris&eacute;es.</p><p id="-6f0mpw_70"><span class="control" id="-6f0mpw_73">Exemple :</span></p><div class="code-block" data-lang="java">
+@Column(nullable = false)
+private String email;
+</div></section><section class="chapter"><h4 id="attribut-unique" data-toc="attribut-unique">Attribut unique</h4><p id="-6f0mpw_74">Sp&eacute;cifie si les valeurs dans cette colonne doivent &ecirc;tre uniques.</p><p id="-6f0mpw_75">Cela ajoute une contrainte d'unicit&eacute; &agrave; la colonne dans le sch&eacute;ma de base de donn&eacute;es.</p><p id="-6f0mpw_76"><span class="control" id="-6f0mpw_78">Exemple :</span></p><div class="code-block" data-lang="java">
+@Column(unique = true)
+private String username;
+</div></section><section class="chapter"><h4 id="attribut-length" data-toc="attribut-length">Attribut <code class="code" id="-6f0mpw_84">length</code></h4><p id="-6f0mpw_80">D&eacute;finit la taille maximale pour les colonnes de type String.</p><p id="-6f0mpw_81">Par d&eacute;faut, la valeur est 255.</p><p id="-6f0mpw_82"><span class="control" id="-6f0mpw_85">Exemple :</span></p><div class="code-block" data-lang="java">
+@Column(length = 100)
+private String description;
+</div></section><section class="chapter"><h4 id="attributs-precision-et-scale" data-toc="attributs-precision-et-scale">Attributs <code class="code" id="-6f0mpw_91">precision</code> et <code class="code" id="-6f0mpw_92">scale</code></h4><p id="-6f0mpw_87">Utilis&eacute;s pour les colonnes de type d&eacute;cimal (BigDecimal) :</p><ul class="list _bullet" id="-6f0mpw_88"><li class="list__item" id="-6f0mpw_93"><p id="-6f0mpw_95">precision : Nombre total de chiffres (avant et apr&egrave;s la virgule).</p></li><li class="list__item" id="-6f0mpw_94"><p id="-6f0mpw_96">scale : Nombre de chiffres apr&egrave;s la virgule.</p></li></ul><p id="-6f0mpw_89"><span class="control" id="-6f0mpw_97">Exemple :</span></p><div class="code-block" data-lang="java">
+@Column(precision = 10, scale = 2)
+private BigDecimal price;
+</div></section><section class="chapter"><h4 id="attribut-insertable" data-toc="attribut-insertable">Attribut <code class="code" id="-6f0mpw_103">insertable</code></h4><p id="-6f0mpw_99">Indique si cette colonne doit &ecirc;tre incluse dans les instructions SQL INSERT.</p><p id="-6f0mpw_100">Par d&eacute;faut, la valeur est true.</p><p id="-6f0mpw_101"><span class="control" id="-6f0mpw_104">Exemple :</span></p><div class="code-block" data-lang="java">
+@Column(insertable = false)
+private String createdBy;
+</div></section><section class="chapter"><h4 id="attribut-updatable" data-toc="attribut-updatable">Attribut <code class="code" id="-6f0mpw_110">updatable</code></h4><p id="-6f0mpw_106">Indique si cette colonne doit &ecirc;tre incluse dans les instructions SQL UPDATE.</p><p id="-6f0mpw_107">Par d&eacute;faut, la valeur est true.</p><p id="-6f0mpw_108"><span class="control" id="-6f0mpw_111">Exemple :</span></p><div class="code-block" data-lang="java">
+@Column(updatable = false)
+private LocalDate createdDate;
+</div></section><section class="chapter"><h4 id="attribut-columndefinition" data-toc="attribut-columndefinition">Attribut <code class="code" id="-6f0mpw_117">columnDefinition</code></h4><p id="-6f0mpw_113">Permet de sp&eacute;cifier directement le type SQL ou toute autre d&eacute;finition sp&eacute;cifique &agrave; la base de donn&eacute;es pour cette colonne.</p><p id="-6f0mpw_114">Utile pour des types sp&eacute;cifiques ou des contraintes non standard.</p><p id="-6f0mpw_115"><span class="control" id="-6f0mpw_118">Exemple :</span></p><div class="code-block" data-lang="java">
+@Column(columnDefinition = &quot;TEXT NOT NULL&quot;)
+private String longDescription;
+</div></section><section class="chapter"><h4 id="attribut-table" data-toc="attribut-table">Attribut <code class="code" id="-6f0mpw_124">table</code></h4><p id="-6f0mpw_120">Permet de sp&eacute;cifier le nom de la table dans laquelle se trouve cette colonne (utile si l'entit&eacute; est mapp&eacute;e sur plusieurs tables).</p><p id="-6f0mpw_121">Par d&eacute;faut, la table principale est utilis&eacute;e.</p><p id="-6f0mpw_122"><span class="control" id="-6f0mpw_125">Exemple :</span></p><div class="code-block" data-lang="java">
+@Column(table = &quot;customer_details&quot;)
+private String address;
+</div></section></section><section class="chapter"><h3 id="les-attributs-des-associations-onetoone-manytoone-onetomany-et-manytomany" data-toc="les-attributs-des-associations-onetoone-manytoone-onetomany-et-manytomany">Les attributs des associations (@OneToOne, @ManyToOne, @OneToMany et @ManyToMany)</h3><section class="chapter"><h4 id="attribut-mappedby" data-toc="attribut-mappedby">Attribut <code class="code" id="-6f0mpw_138">mappedBy</code></h4><p id="-6f0mpw_133">Utilis&eacute; pour sp&eacute;cifier le c&ocirc;t&eacute; non propri&eacute;taire (inverse) dans une relation bidirectionnelle.</p><p id="-6f0mpw_134">Il indique le champ ou la propri&eacute;t&eacute; qui mappe la relation dans l'entit&eacute; propri&eacute;taire.</p><p id="-6f0mpw_135"><span class="control" id="-6f0mpw_139">Exemple :</span></p><div class="code-block" data-lang="java">
+@OneToOne(mappedBy = &quot;customerRecord&quot;)
+private Customer customer;
+</div><p id="-6f0mpw_137">Ici, customerRecord est le champ dans l'entit&eacute; propri&eacute;taire.</p></section><section class="chapter"><h4 id="attribut-cascade" data-toc="attribut-cascade">Attribut <code class="code" id="-6f0mpw_149">cascade</code></h4><p id="-6f0mpw_141">D&eacute;finit les op&eacute;rations &agrave; propager (cascader) de l'entit&eacute; source vers l'entit&eacute; cible.</p><p id="-6f0mpw_142">Valeurs possibles :</p><ul class="list _bullet" id="-6f0mpw_143"><li class="list__item" id="-6f0mpw_150"><p id="-6f0mpw_156">CascadeType.PERSIST</p></li><li class="list__item" id="-6f0mpw_151"><p id="-6f0mpw_157">CascadeType.MERGE</p></li><li class="list__item" id="-6f0mpw_152"><p id="-6f0mpw_158">CascadeType.REMOVE</p></li><li class="list__item" id="-6f0mpw_153"><p id="-6f0mpw_159">CascadeType.REFRESH</p></li><li class="list__item" id="-6f0mpw_154"><p id="-6f0mpw_160">CascadeType.DETACH</p></li><li class="list__item" id="-6f0mpw_155"><p id="-6f0mpw_161">CascadeType.ALL (toutes les op&eacute;rations).</p></li></ul><p id="-6f0mpw_144"><span class="control" id="-6f0mpw_162">Exemple :</span></p><div class="code-block" data-lang="java">
+@OneToOne(cascade = CascadeType.ALL)
+private Address address;
+</div><p id="-6f0mpw_147">L'attribut cascade admet &eacute;galement un tableau de valeurs</p><div class="code-block" data-lang="java">
+@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+private Address address;
+</div></section><section class="chapter"><h4 id="attribut-fetch" data-toc="attribut-fetch">Attribut <code class="code" id="-6f0mpw_168">fetch</code></h4><p id="-6f0mpw_164">Sp&eacute;cifie si la relation doit &ecirc;tre charg&eacute;e de mani&egrave;re paresseuse (FetchType.LAZY) ou imm&eacute;diate (FetchType.EAGER).</p><p id="-6f0mpw_165">Par d&eacute;faut : FetchType.EAGER.</p><p id="-6f0mpw_166"><span class="control" id="-6f0mpw_169">Exemple :</span></p><div class="code-block" data-lang="java">
+@OneToOne(fetch = FetchType.LAZY)
+private Profile profile;
+</div></section><section class="chapter"><h4 id="attribut-optional" data-toc="attribut-optional">Attribut <code class="code" id="-6f0mpw_176">optional</code></h4><p id="-6f0mpw_171">Indique si la relation est facultative ou non.</p><p id="-6f0mpw_172">Si d&eacute;fini sur false, une exception sera lev&eacute;e si la relation n'est pas d&eacute;finie.</p><p id="-6f0mpw_173">Par d&eacute;faut : true.</p><p id="-6f0mpw_174"><span class="control" id="-6f0mpw_177">Exemple :</span></p><div class="code-block" data-lang="java">
+@OneToOne(optional = false)
+private Passport passport;
+</div></section><section class="chapter"><h4 id="attribut-orphanremoval" data-toc="attribut-orphanremoval">Attribut <code class="code" id="-6f0mpw_183">orphanRemoval</code></h4><p id="-6f0mpw_179">Permet de supprimer automatiquement l'entit&eacute; cible si elle est dissoci&eacute;e de l'entit&eacute; source.</p><p id="-6f0mpw_180">Cela &eacute;quivaut &agrave; utiliser CascadeType.REMOVE, mais uniquement pour les entit&eacute;s orphelines.</p><p id="-6f0mpw_181"><span class="control" id="-6f0mpw_184">Exemple :</span></p><div class="code-block" data-lang="java">
+@OneToOne(orphanRemoval = true)
+private UserProfile userProfile;
+</div></section><section class="chapter"><h4 id="attribut-targetentity" data-toc="attribut-targetentity">Attribut <code class="code" id="-6f0mpw_191">targetEntity</code></h4><p id="-6f0mpw_186">Sp&eacute;cifie explicitement la classe cible de la relation.</p><p id="-6f0mpw_187">Utile lorsque le type ne peut pas &ecirc;tre d&eacute;termin&eacute; automatiquement, comme avec des types g&eacute;n&eacute;riques.</p><p id="-6f0mpw_188">Par d&eacute;faut : d&eacute;duit du type du champ ou de la propri&eacute;t&eacute;.</p><p id="-6f0mpw_189"><span class="control" id="-6f0mpw_192">Exemple :</span></p><div class="code-block" data-lang="java">
+@OneToOne(targetEntity = Address.class)
+private Object address;
+</div></section></section><section class="chapter"><h3 id="l-annotation-joincolumn" data-toc="l-annotation-joincolumn">L'annotation @JoinColumn</h3><p id="-6f0mpw_193">@JoinColumn est utilis&eacute;e pour personnaliser et configurer la colonne de cl&eacute; &eacute;trang&egrave;re dans une relation entre deux entit&eacute;s.</p><p id="-6f0mpw_194">Cette annotation poss&egrave;de les m&ecirc;mes attributs que l'annotation @Column et en ajoute une pour g&eacute;rer les clefs &eacute;trang&egrave;res particuli&egrave;res.</p><section class="chapter"><h4 id="attribut-referencedcolumnname" data-toc="attribut-referencedcolumnname">Attribut <code class="code" id="-6f0mpw_201">referencedColumnName</code></h4><p id="-6f0mpw_197">Sp&eacute;cifie le nom de la colonne dans l'entit&eacute; r&eacute;f&eacute;renc&eacute;e (par d&eacute;faut, c'est la cl&eacute; primaire).</p><p id="-6f0mpw_198">Utile lorsque la cl&eacute; &eacute;trang&egrave;re ne pointe pas vers la colonne par d&eacute;faut (la cl&eacute; primaire).</p><p id="-6f0mpw_199"><span class="control" id="-6f0mpw_202">Exemple :</span></p><div class="code-block" data-lang="java">
+@JoinColumn(name = &quot;address_zip&quot;, referencedColumnName = &quot;zipcode&quot;)
+private Address address;
+</div></section></section></section><div class="last-modified">Last modified: 13 avril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="004-00-hibernate-et-jpa.html" class="navigation-links__prev">Hibernate et JPA</a><a href="004-02-jpql-jakarta-persistence-query-language.html" class="navigation-links__next">JPQL (Jakarta Persistence Query Language)</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.js"></script></body></html>

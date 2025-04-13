@@ -1,0 +1,304 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-04-13T18:06:18.589882"><title>Java Server Pages (JSP) | Jakarta</title><script type="application/json" id="virtual-toc-data">[{"id":"caract-ristiques-de-jsp","level":0,"title":"Caractéristiques de JSP","anchor":"#caract-ristiques-de-jsp"},{"id":"un-exemple-de-jsp","level":0,"title":"Un exemple de JSP","anchor":"#un-exemple-de-jsp"},{"id":"la-syntaxe-des-jsp","level":0,"title":"La syntaxe des JSP","anchor":"#la-syntaxe-des-jsp"},{"id":"les-objets-implicites","level":0,"title":"Les objets implicites","anchor":"#les-objets-implicites"},{"id":"jsp-et-le-pattern-mvc","level":0,"title":"JSP et le pattern MVC","anchor":"#jsp-et-le-pattern-mvc"},{"id":"la-gestion-des-sessions","level":0,"title":"La gestion des sessions","anchor":"#la-gestion-des-sessions"},{"id":"les-ressources-externes","level":0,"title":"Les ressources externes","anchor":"#les-ressources-externes"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Java Server Pages (JSP) | Jakarta"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Jakarta Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/001-00-java-server-pages-jsp.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Java Server Pages (JSP) | Jakarta"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/001-00-java-server-pages-jsp.html#webpage",
+    "url": "writerside-documentation/001-00-java-server-pages-jsp.html",
+    "name": "Java Server Pages (JSP) | Jakarta",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Jakarta Help"
+}</script><!-- End Schema.org --></head><body data-id="001-00-Java-Server-Pages-JSP" data-main-title="Java Server Pages (JSP)" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs=""><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Jakarta  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="001-00-Java-Server-Pages-JSP" id="001-00-Java-Server-Pages-JSP.md">Java Server Pages (JSP)</h1><p id="knxvzc_3">Java|Jakarta Server Pages est une sp&eacute;cification d&eacute;velopp&eacute;e pour r&eacute;aliser des pages dynamiques incluant du code html et du code Java. Le principe est assez similaire &agrave; PHP.</p><section class="chapter"><h2 id="caract-ristiques-de-jsp" data-toc="caract-ristiques-de-jsp">Caract&eacute;ristiques de JSP</h2><ul class="list _bullet" id="knxvzc_11"><li class="list__item" id="knxvzc_12"><p id="knxvzc_19">Int&eacute;gration facile avec Java EE : Utilise les servlets et autres technologies Jakarta EE.</p></li><li class="list__item" id="knxvzc_13"></li><li class="list__item" id="knxvzc_14"><p id="knxvzc_20">S&eacute;paration logique-pr&eacute;sentation : Favorise l'utilisation du mod&egrave;le MVC en combinant JSP avec les servlets.</p></li><li class="list__item" id="knxvzc_15"></li><li class="list__item" id="knxvzc_16"><p id="knxvzc_21">Support des biblioth&egrave;ques de balises : Permet d'utiliser des JSP Tag Libraries (JSTL) et des balises personnalis&eacute;es pour simplifier le code.</p></li><li class="list__item" id="knxvzc_17"><p id="knxvzc_22">Gestion des sessions : Prend en charge la gestion des sessions utilisateur automatiquement.</p></li><li class="list__item" id="knxvzc_18"><p id="knxvzc_23">Compilation c&ocirc;t&eacute; serveur : Les fichiers JSP sont compil&eacute;s en servlets lors de la premi&egrave;re requ&ecirc;te.</p></li></ul></section><section class="chapter"><h2 id="un-exemple-de-jsp" data-toc="un-exemple-de-jsp">Un exemple de JSP</h2><div class="code-block" data-lang="markup">
+&lt;!-- index.jsp --&gt;
+&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; %&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Exemple JSP&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Bonjour, JSP!&lt;/h1&gt;
+    &lt;p&gt;
+    La date et l'heure actuelles sont : 
+    &lt;%= new java.util.Date() %&gt;
+    &lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div></section><section class="chapter"><h2 id="la-syntaxe-des-jsp" data-toc="la-syntaxe-des-jsp">La syntaxe des JSP</h2><section class="chapter"><h3 id="directives-jsp" data-toc="directives-jsp">Directives JSP (<code class="code" id="knxvzc_34">&lt;%@ ... %&gt;</code>)</h3><p id="knxvzc_30">Les directives donnent des instructions au conteneur JSP. Elles commencent par <code class="code" id="knxvzc_35">&lt;%@ ... %&gt;</code>.</p><div class="code-block" data-lang="markup">
+&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot; %&gt;
+</div><ul class="list _bullet" id="knxvzc_32"><li class="list__item" id="knxvzc_36"><p id="knxvzc_39"><code class="code" id="knxvzc_40">language=&quot;java&quot;</code>: Sp&eacute;cifie que la page utilise Java.</p></li><li class="list__item" id="knxvzc_37"><p id="knxvzc_41"><code class="code" id="knxvzc_42">contentType=&quot;text/html; charset=UTF-8&quot;</code>: D&eacute;finit le type MIME et l'encodage.</p></li><li class="list__item" id="knxvzc_38"><p id="knxvzc_43"><code class="code" id="knxvzc_44">pageEncoding=&quot;UTF-8&quot;</code>: Sp&eacute;cifie l'encodage du fichier JSP.</p></li></ul><section class="chapter"><h4 id="autres-directives-utiles" data-toc="autres-directives-utiles">Autres directives utiles</h4><p id="knxvzc_45"><span class="control" id="knxvzc_51">Inclure un fichier</span></p><div class="code-block" data-lang="markup">
+&lt;%@ include file=&quot;header.jsp&quot; %&gt;
+</div><p id="knxvzc_47"><span class="control" id="knxvzc_52">Importer une classe Java</span></p><div class="code-block" data-lang="markup">
+&lt;%@ page import=&quot;java.util.Date&quot; %&gt;
+&lt;%
+    Date date = new Date();
+    out.println(&quot;Date actuelle : &quot; + date);
+%&gt;
+</div><p id="knxvzc_49"><span class="control" id="knxvzc_53">D&eacute;finir un gestionnaire d'erreur</span></p><div class="code-block" data-lang="markup">
+&lt;%@ page errorPage=&quot;erreur.jsp&quot; %&gt;
+</div></section></section><section class="chapter"><h3 id="scriplets" data-toc="scriplets">Scriplets (<code class="code" id="knxvzc_58">&lt;% ... %&gt;</code>)</h3><p id="knxvzc_55">Un scriplet permet d'ins&eacute;rer du code Java dans une page JSP.</p><div class="code-block" data-lang="markup">
+&lt;%
+    String message = &quot;Bonjour, JSP !&quot;;
+    out.println(&quot;&lt;p&gt;&quot; + message + &quot;&lt;/p&gt;&quot;);
+%&gt;
+</div><ul class="list _bullet" id="knxvzc_57"><li class="list__item" id="knxvzc_59"><p id="knxvzc_61">On d&eacute;clare et assigne une valeur &agrave; la variable message.</p></li><li class="list__item" id="knxvzc_60"><p id="knxvzc_62"><code class="code" id="knxvzc_63">out.println()</code> est utilis&eacute; pour afficher du contenu HTML dans la page.</p></li></ul></section><section class="chapter"><h3 id="expressions" data-toc="expressions">Expressions (<code class="code" id="knxvzc_67">&lt;%= ... %&gt;</code>)</h3><p id="knxvzc_65">Permet d'afficher directement une valeur dans la page HTML.</p><div class="code-block" data-lang="markup">
+&lt;p&gt;La date actuelle est : &lt;%= new java.util.Date() %&gt;&lt;/p&gt;
+</div></section><section class="chapter"><h3 id="d-clarations" data-toc="d-clarations">D&eacute;clarations (<code class="code" id="knxvzc_71">&lt;%! ... %&gt;</code>)</h3><p id="knxvzc_69">Utilis&eacute;es pour d&eacute;finir des variables et des m&eacute;thodes accessibles &agrave; toute la page JSP.</p><div class="code-block" data-lang="markup">
+&lt;%! int addition(int a, int b) { return a + b; } %&gt;
+&lt;p&gt;Résultat : &lt;%= addition(3, 4) %&gt;&lt;/p&gt;
+</div></section></section><section class="chapter"><h2 id="les-objets-implicites" data-toc="les-objets-implicites">Les objets implicites</h2><p id="knxvzc_72">Les objets implicites sont des objets pr&eacute;-d&eacute;finis fournis par le conteneur JSP, permettant d&rsquo;acc&eacute;der facilement aux informations de requ&ecirc;te, de r&eacute;ponse, de session et de contexte d&rsquo;application sans avoir besoin de les instancier explicitement.</p><section class="chapter"><h3 id="l-objet-request" data-toc="l-objet-request">L&rsquo;objet request</h3><p id="knxvzc_81">Permet d&rsquo;acc&eacute;der aux param&egrave;tres de la requ&ecirc;te HTTP.</p><div class="code-block" data-lang="markup">
+&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Exemple Request&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;% 
+        String nom = request.getParameter(&quot;nom&quot;);
+        String age = request.getParameter(&quot;age&quot;);
+    %&gt;
+    &lt;p&gt;Nom : &lt;%= nom %&gt;&lt;/p&gt;
+    &lt;p&gt;Âge : &lt;%= age %&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div><aside class="prompt" data-type="tip" data-title="" id="knxvzc_83"><p id="knxvzc_85">Avec JSP, la m&eacute;thode <code class="code" id="knxvzc_86">getParameter</code> r&eacute;cup&egrave;re les donn&eacute;es transmises avec la m&eacute;thode GET ou POST.</p></aside><section class="chapter"><h4 id="r-cup-rer-tous-les-param-tres" data-toc="r-cup-rer-tous-les-param-tres">R&eacute;cup&eacute;rer tous les param&egrave;tres</h4><div class="code-block" data-lang="markup">
+&lt;%@ page import=&quot;java.util.Enumeration&quot; %&gt;
+
+&lt;%
+    Enumeration&lt;String&gt; paramNames = request.getParameterNames();
+    while (paramNames.hasMoreElements()) {
+        String paramName = paramNames.nextElement();
+        String paramValue = request.getParameter(paramName);
+%&gt;
+        &lt;p&gt;&lt;%= paramName %&gt; : &lt;%= paramValue %&gt;&lt;/p&gt;
+&lt;%
+    }
+%&gt;
+</div></section></section><section class="chapter"><h3 id="l-objet-response" data-toc="l-objet-response">L'objet Response</h3><p id="knxvzc_88">Permet de g&eacute;rer la r&eacute;ponse HTTP (redirections, cookies, type de contenu...).</p><div class="code-block" data-lang="markup">
+&lt;%
+    response.sendRedirect(&quot;home.jsp&quot;);
+%&gt;
+</div></section><section class="chapter"><h3 id="l-objet-session" data-toc="l-objet-session">L'objet Session</h3><p id="knxvzc_90">G&egrave;re la session, &eacute;quivalent au <code class="code" id="knxvzc_92">$_SESSION</code> de PHP.</p><div class="code-block" data-lang="markup">
+&lt;%
+    session.setAttribute(&quot;user&quot;, &quot;Alice&quot;);
+%&gt;
+&lt;p&gt;
+    Bienvenue, &lt;%= session.getAttribute(&quot;user&quot;) %&gt;
+&lt;/p&gt;
+</div></section><section class="chapter"><h3 id="l-objet-application" data-toc="l-objet-application">L&rsquo;objet application</h3><p id="knxvzc_93">L&rsquo;objet application stocke des informations accessibles &agrave; toutes les sessions et requ&ecirc;tes. Ce concept n'existe pas en PHP.</p><div class="code-block" data-lang="markup">
+&lt;%
+    Integer compteur = (Integer) application.getAttribute(&quot;compteur&quot;);
+    if (compteur == null) {
+        compteur = 1;
+    } else {
+        compteur++;
+    }
+    application.setAttribute(&quot;compteur&quot;, compteur);
+%&gt;
+&lt;p&gt;Nombre de visiteurs : &lt;%= compteur %&gt;&lt;/p&gt;
+
+</div></section><section class="chapter"><h3 id="l-objet-pagecontext" data-toc="l-objet-pagecontext">L&rsquo;objet pageContext</h3><p id="knxvzc_95">L&rsquo;objet pageContext donne acc&egrave;s aux objets des diff&eacute;rentes port&eacute;es (page, request, session, application).</p><div class="code-block" data-lang="markup">
+&lt;%
+    pageContext.setAttribute(
+        &quot;message&quot;, &quot;Bonjour JSP!&quot;, 
+        PageContext.SESSION_SCOPE
+    );
+%&gt;
+&lt;p&gt;
+    &lt;%= pageContext.getAttribute(
+            &quot;message&quot;, 
+            PageContext.SESSION_SCOPE
+        ) 
+    %&gt;
+&lt;/p&gt;
+</div></section><section class="chapter"><h3 id="l-objet-config" data-toc="l-objet-config">L&rsquo;objet config</h3><p id="knxvzc_97">L&rsquo;objet config est utilis&eacute; pour r&eacute;cup&eacute;rer des param&egrave;tres d&rsquo;initialisation d&eacute;finis dans le fichier web.xml.</p><div class="code-block" data-lang="markup">
+&lt;servlet&gt;
+    &lt;servlet-name&gt;MyJSP&lt;/servlet-name&gt;
+    &lt;jsp-file&gt;/myPage.jsp&lt;/jsp-file&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;emailAdmin&lt;/param-name&gt;
+        &lt;param-value&gt;admin@example.com&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/servlet&gt;
+
+</div><div class="code-block" data-lang="markup">
+&lt;p&gt;Email Admin : &lt;%= config.getInitParameter(&quot;emailAdmin&quot;) %&gt;&lt;/p&gt;
+</div></section><section class="chapter"><h3 id="l-objet-page" data-toc="l-objet-page">L&rsquo;objet page</h3><p id="knxvzc_100">L&rsquo;objet page repr&eacute;sente l&rsquo;instance actuelle de la page JSP (&eacute;quivalent &agrave; this en Java).</p><div class="code-block" data-lang="markup">
+&lt;%
+    out.println(&quot;Classe de la page : &quot; + page.getClass().getName());
+%&gt;
+</div></section><section class="chapter"><h3 id="l-objet-exception" data-toc="l-objet-exception">L&rsquo;objet exception</h3><p id="knxvzc_102">L&rsquo;objet exception est disponible uniquement dans les pages JSP d&eacute;clar&eacute;es comme des pages d'erreur.</p><div class="code-block" data-lang="markup">
+&lt;!-- 
+    Génération d'une erreur à des fins de démonstration,
+    éviter de le faire en production :-) 
+--&gt;
+&lt;%@ page isErrorPage=&quot;true&quot; %&gt;
+
+&lt;p&gt;Une erreur est survenue : &lt;%= exception.getMessage() %&gt;&lt;/p&gt;
+</div></section></section><section class="chapter"><h2 id="jsp-et-le-pattern-mvc" data-toc="jsp-et-le-pattern-mvc">JSP et le pattern MVC</h2><p id="knxvzc_104">Les JSP se comportent comme le PHP des ann&eacute;es 90. Les pratiques ont depuis quelque peu &eacute;volu&eacute; et il est d&eacute;sormais impensable de ne pas utiliser un syst&egrave;me de routage.</p><p id="knxvzc_105">Pour ce faire, il faut combiner JSP et Servlet.</p><div class="code-block" data-lang="java">
+// HelloServlet.java
+
+@WebServlet(&quot;/hello&quot;)
+public class HelloServlet extends HttpServlet {
+    protected void doGet(
+        HttpServletRequest request, 
+        HttpServletResponse response
+    ) throws ServletException, IOException 
+    {
+        // Définition d'un attribut personnalisé 
+        // dans l'objet Request.
+        // Cet attribut sera lu par la page JSP
+        request.setAttribute(
+            &quot;message&quot;, 
+            &quot;Hello depuis le Servlet!&quot;
+        );
+        
+        // Récupération d'un dispatcher pour la page cible
+        RequestDispatcher dispatcher = request.getRequestDispatcher(
+            &quot;hello.jsp&quot;
+        );
+        
+        // Transmission de la requête à la page JSP
+        dispatcher.forward(request, response);
+    }
+}
+</div><p id="knxvzc_107">Gr&acirc;ce &agrave; cette technique, il est possible de s&eacute;parer la couche, pr&eacute;sentation de la logique m&eacute;tier. Sans cela, d&eacute;velopper une application web avec les seules JSP nous ram&egrave;ne &agrave; la pr&eacute;histoire du Web.</p></section><section class="chapter"><h2 id="la-gestion-des-sessions" data-toc="la-gestion-des-sessions">La gestion des sessions</h2><p id="knxvzc_108">Une session est un m&eacute;canisme permettant de stocker des informations utilisateur c&ocirc;t&eacute; serveur sur plusieurs requ&ecirc;tes HTTP. Jakarta Servlet utilise des objets de type HttpSession pour g&eacute;rer les sessions.</p><section class="chapter"><h3 id="cr-ation-et-r-cup-ration-d-une-session" data-toc="cr-ation-et-r-cup-ration-d-une-session">Cr&eacute;ation et r&eacute;cup&eacute;ration d'une session</h3><p id="knxvzc_116">Pour cr&eacute;er ou r&eacute;cup&eacute;rer une session, on utilise la m&eacute;thode <code class="code" id="knxvzc_118">getSession()</code> de l'objet <code class="code" id="knxvzc_119">HttpServletRequest</code>.</p><div class="code-block" data-lang="java">
+// Création ou récupération de la session
+HttpSession session = request.getSession();
+</div></section><section class="chapter"><h3 id="stockage-d-attributs-dans-la-session" data-toc="stockage-d-attributs-dans-la-session">Stockage d'attributs dans la session</h3><div class="code-block" data-lang="java">
+HttpSession session = request.getSession();
+
+// Ajouter un attribut
+session.setAttribute(&quot;username&quot;, &quot;joe user&quot;);
+
+// Récupérer un attribut
+String username = (String) session.getAttribute(&quot;username&quot;);
+
+// Supprimer un attribut
+session.removeAttribute(&quot;username&quot;);
+</div></section><section class="chapter"><h3 id="stockage-d-un-objet" data-toc="stockage-d-un-objet">Stockage d'un objet</h3><p id="knxvzc_121">Il est possible de stocker des objets en session, il faut juste que ces objets impl&eacute;mentent l'interface <code class="code" id="knxvzc_128">Serializable</code>. Jakarta se charge de la s&eacute;rialisation et d&eacute;-serialisation.</p><p id="knxvzc_122"><span class="control" id="knxvzc_129">Une classe s&eacute;rialisable</span></p><div class="code-block" data-lang="java">
+package fr.mvc.app.model;
+
+import java.io.Serializable;
+
+public class User implements Serializable {
+    private String username;
+    private String email;
+
+    public User(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;User [username=&quot; + username + &quot;, email=&quot; + email + &quot;]&quot;;
+    }
+}
+</div><p id="knxvzc_124"><span class="control" id="knxvzc_130">Enregistrement de l'objet en session</span></p><div class="code-block" data-lang="java">
+User user = new User(&quot;joe user&quot;, &quot;joe@user.com&quot;);
+
+// Création de la session et enregistrement de l'objet
+HttpSession session = request.getSession();
+session.setAttribute(&quot;user&quot;, user);
+</div><p id="knxvzc_126"><span class="control" id="knxvzc_131">R&eacute;cup&eacute;ration de l'objet</span></p><div class="code-block" data-lang="java">
+// Il faut caster pour que Jakarta sache dans quelle classe dé-sérialiser
+User user = (User) session.getAttribute(&quot;user&quot;);
+</div></section><section class="chapter"><h3 id="gestion-de-la-dur-e-de-la-session" data-toc="gestion-de-la-dur-e-de-la-session">Gestion de la dur&eacute;e de la session</h3><section class="chapter"><h4 id="dans-une-servlet-la-cr-ation-de-la-session" data-toc="dans-une-servlet-la-cr-ation-de-la-session">Dans une servlet &agrave; la cr&eacute;ation de la session</h4><div class="code-block" data-lang="java">
+// Durée en secondes (ici 30 minutes)
+session.setMaxInactiveInterval(30 * 60);
+</div></section><section class="chapter"><h4 id="dans-web-xml-pour-l-ensemble-des-sessions" data-toc="dans-web-xml-pour-l-ensemble-des-sessions">Dans <code class="code" id="knxvzc_137">web.xml</code> pour l'ensemble des sessions</h4><div class="code-block" data-lang="markup">
+&lt;session-config&gt;
+    &lt;session-timeout&gt;30&lt;/session-timeout&gt;
+&lt;/session-config&gt;
+</div></section></section><section class="chapter"><h3 id="invalidations-et-destruction-de-la-session" data-toc="invalidations-et-destruction-de-la-session">Invalidations et destruction de la session</h3><p id="knxvzc_138">D&eacute;truit la session et lib&egrave;re les ressources.</p><div class="code-block" data-lang="java">
+// Invalider la session
+session.invalidate();
+</div></section><section class="chapter"><h3 id="v-rification-de-l-tat-de-la-session" data-toc="v-rification-de-l-tat-de-la-session">V&eacute;rification de l'&eacute;tat de la session</h3><div class="code-block" data-lang="java">
+if (session == null || session.getAttribute(&quot;username&quot;) == null) {
+    response.sendRedirect(&quot;login.jsp&quot;);
+}
+</div></section><section class="chapter"><h3 id="exercices" data-toc="exercices">Exercices</h3><section class="chapter"><h4 id="compteur-de-visites" data-toc="compteur-de-visites">Compteur de visites</h4><ul class="list _bullet" id="knxvzc_143"><li class="list__item" id="knxvzc_144"><p id="knxvzc_147">Cr&eacute;er une route et une page qui incr&eacute;mente et affiche un compteur &agrave; chaque fois qu'elle est visit&eacute;e au sein de la m&ecirc;me session.</p></li><li class="list__item" id="knxvzc_145"><p id="knxvzc_148">Cr&eacute;er un bouton de remise &agrave; z&eacute;ro du compteur.</p></li><li class="list__item" id="knxvzc_146"><p id="knxvzc_149">Quelles sont les limites de cette solution et quelles solutions alternatives pourraient &ecirc;tre mises en place ?</p></li></ul></section><section class="chapter"><h4 id="gestion-de-panier" data-toc="gestion-de-panier">Gestion de panier</h4><ul class="list _bullet" id="knxvzc_150"><li class="list__item" id="knxvzc_151"><p id="knxvzc_155">Cr&eacute;er une route et une page qui pr&eacute;sente un formulaire offrant la possibilit&eacute; de saisir le nom d'un produit et sa quantit&eacute;.</p></li><li class="list__item" id="knxvzc_152"><p id="knxvzc_156">Stocker cette information dans une liste de map enregistr&eacute;e en session</p></li><li class="list__item" id="knxvzc_153"><p id="knxvzc_157">Afficher le contenu du panier dans une autre page</p></li><li class="list__item" id="knxvzc_154"><p id="knxvzc_158">Mettre en place un lien qui permet de vider le panier</p></li></ul></section></section></section><section class="chapter"><h2 id="les-ressources-externes" data-toc="les-ressources-externes">Les ressources externes</h2><p id="knxvzc_159">Une application web contient g&eacute;n&eacute;ralement des ressources externes telles que des images des fichiers, CSS ou JavaScript. &Agrave; la compilation du fichier <code class="code" id="knxvzc_169">.war</code>, le contenu du dossier <code class="code" id="knxvzc_170">webapp</code> est automatiquement ajout&eacute;. C'est donc l&agrave; qu'il faut placer les ressources.</p><p id="knxvzc_160">&Eacute;tant donn&eacute; qu'il est possible d'ex&eacute;cuter un fichier <code class="code" id="knxvzc_171">.war</code> avec un contexte diff&eacute;rent, il sera prudent d'ajouter ce contexte en pr&eacute;fixe des liens avec le code suivant :</p><div class="code-block" data-lang="markup">
+${pageContext.request.contextPath}
+</div><p id="knxvzc_162"><span class="control" id="knxvzc_172">Exemple</span></p><div class="code-block" data-lang="markup">
+&lt;link rel=&quot;stylesheet&quot; href=&quot;${pageContext.request.contextPath}/assets/css/style.css&quot;&gt;
+&lt;script src=&quot;${pageContext.request.contextPath}/assets/js/script.js&quot;&gt;&lt;/script&gt;
+&lt;img src=&quot;${pageContext.request.contextPath}/assets/images/logo.png&quot; alt=&quot;Logo&quot;&gt;
+</div><section class="chapter"><h3 id="gestion-des-biblioth-ques-externes" data-toc="gestion-des-biblioth-ques-externes">Gestion des biblioth&egrave;ques externes</h3><p id="knxvzc_173">Pour g&eacute;rer les biblioth&egrave;ques externes CSS ou JavaScript, il existe plusieurs solutions.</p></section><section class="chapter"><h3 id="utiliser-un-cdn" data-toc="utiliser-un-cdn">Utiliser un CDN</h3><p id="knxvzc_174">La solution la plus simple tant que la connexion &agrave; l'Internet est assur&eacute;e.</p><p id="knxvzc_175"><span class="control" id="knxvzc_177">exemple</span></p><div class="code-block" data-lang="markup">
+&lt;link
+  rel=&quot;stylesheet&quot;
+  href=&quot;https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css&quot;
+&gt;
+</div></section><section class="chapter"><h3 id="t-l-charger-les-fichiers-manuellement" data-toc="t-l-charger-les-fichiers-manuellement">T&eacute;l&eacute;charger les fichiers manuellement</h3><p id="knxvzc_178">Cette solution implique de tracer avec Git des ressources qui ne doivent pas &ecirc;tre modifi&eacute;es donc dans la plupart des cas, il faudra s'abstenir sauf si les d&eacute;pendances sont minimales et/ou que le nombre de d&eacute;veloppeurs est tr&egrave;s r&eacute;duit (un nombre impair inf&eacute;rieur &agrave; trois par exemple).</p></section><section class="chapter"><h3 id="utiliser-un-gestionnaire-de-d-pendances" data-toc="utiliser-un-gestionnaire-de-d-pendances">Utiliser un gestionnaire de d&eacute;pendances</h3><p id="knxvzc_179">Les d&eacute;pendances sont r&eacute;f&eacute;renc&eacute;e dans un fichier <code class="code" id="knxvzc_183">package.json</code>, un nouveau d&eacute;veloppeur peut les t&eacute;l&eacute;charger automatiquement et tout le monde travaille avec les m&ecirc;mes versions.</p><p id="knxvzc_180">Le code des biblioth&egrave;ques est stock&eacute; dans un dossier <code class="code" id="knxvzc_184">node_modules</code> qui n'est pas inclus dans le fichier <code class="code" id="knxvzc_185">.war</code>. Il faudra donc copier les fichiers requis dans un sous dossier de <code class="code" id="knxvzc_186">webapp</code>.</p><div class="code-block" data-lang="bash">
+npm init -y
+npm install @picocss/pico --save
+
+cp node_modules/@picocss/pico/css/pico.css src/main/webapp/css/pico.css 
+</div><p id="knxvzc_182">&Agrave; chaque mise &agrave; jour, il faudra copier &agrave; nouveau les fichiers. Pour &eacute;viter les oublis, il sera prudent de cr&eacute;er un script qui r&eacute;alise ces copies et de le partager avec les coll&egrave;gues.</p></section><section class="chapter"><h3 id="utiliser-un-bundler-tel-que-webpack" data-toc="utiliser-un-bundler-tel-que-webpack">Utiliser un bundler tel que Webpack</h3><p id="knxvzc_187">L'int&eacute;r&ecirc;t ici r&eacute;side dans la consolidation de toutes les d&eacute;pendances en un seul fichier.</p><div class="code-block" data-lang="bash">
+npm install webpack webpack-cli --save-dev
+npm install @picocss/pico --save
+</div><p id="knxvzc_189"><span class="control" id="knxvzc_199">Configuration de Webpack</span></p><div class="code-block" data-lang="javascript">
+// webpack.config.js
+
+const path = require('path');
+
+module.exports = {
+  entry: './src/main/webapp/assets/js/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'src/main/webapp/assets/js'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+  mode: 'production',
+};
+</div><p id="knxvzc_191"><span class="control" id="knxvzc_200">Le fichier d'entr&eacute;e</span></p><div class="code-block" data-lang="javascript">
+// src/main/webapp/assets/js/app.js
+
+import '@picocss/pico/css/pico.min.css';
+
+document.addEventListener('DOMContentLoaded', () =&gt; {
+    console.log('Pico CSS chargé avec Webpack !');
+});
+</div><p id="knxvzc_193"><span class="control" id="knxvzc_201">Modification dans <code class="code" id="knxvzc_202">package.json</code></span></p><div class="code-block" data-lang="json">
+&quot;scripts&quot;: {
+  &quot;build&quot;: &quot;webpack&quot;
+}
+</div><p id="knxvzc_195"><span class="control" id="knxvzc_203">G&eacute;n&eacute;ration du bundle</span></p><div class="code-block" data-lang="bash">
+npm run build
+</div><p id="knxvzc_197"><span class="control" id="knxvzc_204">Int&eacute;gration dans un jsp</span></p><div class="code-block" data-lang="markup">
+&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;fr&quot;&gt;
+&lt;head&gt;
+    &lt;title&gt;Intégration Pico CSS avec Webpack&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;${pageContext.request.contextPath}/assets/js/bundle.js&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;article class=&quot;container&quot;&gt;
+        &lt;h1&gt;Bienvenue sur Jakarta EE avec Pico CSS&lt;/h1&gt;
+        &lt;p&gt;Pico CSS est chargé avec Webpack.&lt;/p&gt;
+        &lt;button class=&quot;contrast&quot;&gt;Cliquez-moi&lt;/button&gt;
+    &lt;/article&gt;
+
+    &lt;script src=&quot;${pageContext.request.contextPath}/assets/js/bundle.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div></section></section><div class="last-modified">Last modified: 13 avril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="001-01-jakarta-intro.html" class="navigation-links__prev">Jakarta Intro</a><a href="001-01-quelques-pattern-frequents.html" class="navigation-links__next">Quelques patterns fr&eacute;quents</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.js"></script></body></html>
