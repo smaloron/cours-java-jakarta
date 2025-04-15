@@ -34,6 +34,7 @@ en PHP. Il est conçu pour être léger, sécurisé et plus facile à utiliser q
 
 Pour utiliser Pebble, il faut obtenir une instance du moteur de template comme ceci :
 
+<!--
 ```java
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.loader.ClasspathLoader;
@@ -41,6 +42,13 @@ import com.mitchellbosecke.pebble.loader.ClasspathLoader;
 PebbleEngine engine = new PebbleEngine.Builder()
         .loader(new ClasspathLoader())
         .build();
+```
+-->
+
+```java
+import io.pebbletemplates.pebble.PebbleEngine;
+
+PebbleEngine engine = new PebbleEngine.Builder().build();
 ```
 
 #### Le modèle
