@@ -1,5 +1,5 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
-<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-04-13T18:06:18.589882"><title>Quelques patterns fr&eacute;quents | Jakarta</title><script type="application/json" id="virtual-toc-data">[{"id":"traitement-d-un-formulaire-avec-la-m-thode-post","level":0,"title":"Traitement d\u0027un formulaire avec la méthode POST","anchor":"#traitement-d-un-formulaire-avec-la-m-thode-post"},{"id":"gestion-des-sessions-et-authentification-minimaliste","level":0,"title":"Gestion des sessions et authentification minimaliste","anchor":"#gestion-des-sessions-et-authentification-minimaliste"},{"id":"gestion-de-l-upload","level":0,"title":"Gestion de l\u0027upload","anchor":"#gestion-de-l-upload"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Quelques patterns fr&eacute;quents | Jakarta"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Jakarta Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/001-01-quelques-pattern-frequents.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Quelques patterns fr&eacute;quents | Jakarta"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-04-15T09:05:21.189021"><title>Quelques patterns fr&eacute;quents | Jakarta</title><script type="application/json" id="virtual-toc-data">[{"id":"traitement-d-un-formulaire-avec-la-m-thode-post","level":0,"title":"Traitement d\u0027un formulaire avec la méthode POST","anchor":"#traitement-d-un-formulaire-avec-la-m-thode-post"},{"id":"gestion-des-sessions-et-authentification-minimaliste","level":0,"title":"Gestion des sessions et authentification minimaliste","anchor":"#gestion-des-sessions-et-authentification-minimaliste"},{"id":"gestion-de-l-upload","level":0,"title":"Gestion de l\u0027upload","anchor":"#gestion-de-l-upload"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Quelques patterns fr&eacute;quents | Jakarta"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Jakarta Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/001-01-quelques-pattern-frequents.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Quelques patterns fr&eacute;quents | Jakarta"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
     "@context": "http://schema.org",
     "@type": "WebPage",
     "@id": "writerside-documentation/001-01-quelques-pattern-frequents.html#webpage",
@@ -13,7 +13,7 @@
     "@id": "writerside-documentation/#website",
     "url": "writerside-documentation/",
     "name": "Jakarta Help"
-}</script><!-- End Schema.org --></head><body data-id="001-01-Quelques-pattern-frequents" data-main-title="Quelques patterns fréquents" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="001-00-Java-Server-Pages-JSP.md|Java Server Pages (JSP)"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Jakarta  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="001-01-Quelques-pattern-frequents" id="001-01-Quelques-pattern-frequents.md">Quelques patterns fréquents</h1><section class="chapter"><h2 id="traitement-d-un-formulaire-avec-la-m-thode-post" data-toc="traitement-d-un-formulaire-avec-la-m-thode-post">Traitement d'un formulaire avec la m&eacute;thode POST</h2><p id="-cxw178_6"><span class="control" id="-cxw178_15">Structure de l'application</span></p><div class="code-block" data-lang="none">
+}</script><!-- End Schema.org --></head><body data-id="001-01-Quelques-pattern-frequents" data-main-title="Quelques patterns fréquents" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="001-00-Java-Server-Pages-JSP.md|Java Server Pages (JSP)"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Jakarta  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="001-01-Quelques-pattern-frequents" id="001-01-Quelques-pattern-frequents.md">Quelques patterns fréquents</h1><section class="chapter"><h2 id="traitement-d-un-formulaire-avec-la-m-thode-post" data-toc="traitement-d-un-formulaire-avec-la-m-thode-post">Traitement d'un formulaire avec la m&eacute;thode POST</h2><p id="uxhu1g_6"><span class="control" id="uxhu1g_15">Structure de l'application</span></p><div class="code-block" data-lang="none">
 myapp/
 ├── src/main/java/fr/mvc/app/
 │   └── controller/
@@ -25,7 +25,7 @@ myapp/
 │       └── web.xml
 └── pom.xml
 
-</div><p id="-cxw178_8"><span class="control" id="-cxw178_16">La servlet</span></p><div class="code-block" data-lang="java">
+</div><p id="uxhu1g_8"><span class="control" id="uxhu1g_16">La servlet</span></p><div class="code-block" data-lang="java">
 package fr.mvc.app.controller;
 
 import jakarta.servlet.ServletException;
@@ -66,7 +66,7 @@ public class NameServlet extends HttpServlet {
     }
 }
 
-</div><p id="-cxw178_10"><span class="control" id="-cxw178_17">Le formulaire</span></p><div class="code-block" data-lang="markup">
+</div><p id="uxhu1g_10"><span class="control" id="uxhu1g_17">Le formulaire</span></p><div class="code-block" data-lang="markup">
 &lt;!-- name-form.jsp --&gt;
 
 &lt;!DOCTYPE html&gt;
@@ -83,7 +83,7 @@ public class NameServlet extends HttpServlet {
     &lt;/form&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</div><p id="-cxw178_12"><span class="control" id="-cxw178_18">Le r&eacute;sultat</span></p><div class="code-block" data-lang="markup">
+</div><p id="uxhu1g_12"><span class="control" id="uxhu1g_18">Le r&eacute;sultat</span></p><div class="code-block" data-lang="markup">
 &lt;!-- result.jsp --&gt;
 
 &lt;!DOCTYPE html&gt;
@@ -98,7 +98,7 @@ public class NameServlet extends HttpServlet {
     &lt;/h2&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</div><section class="chapter"><h3 id="exercice" data-toc="exercice">Exercice</h3><p id="-cxw178_19">Quelques exercices pour pratiquer les points suivants :</p><ul class="list _bullet" id="-cxw178_20"><li class="list__item" id="-cxw178_23"><p id="-cxw178_28">Utilisation des m&eacute;thodes doGet et doPost dans les servlets.</p></li><li class="list__item" id="-cxw178_24"><p id="-cxw178_29">Manipulation des donn&eacute;es re&ccedil;ues depuis les formulaires.</p></li><li class="list__item" id="-cxw178_25"><p id="-cxw178_30">Redirection vers des pages JSP pour afficher les r&eacute;sultats.</p></li><li class="list__item" id="-cxw178_26"><p id="-cxw178_31">V&eacute;rification et validation des donn&eacute;es saisies.</p></li><li class="list__item" id="-cxw178_27"><p id="-cxw178_32">Organisation de l'architecture MVC avec Jakarta Servlets et JSP.</p></li></ul><section class="chapter"><h4 id="formulaire-de-calcul-de-l-ge" data-toc="formulaire-de-calcul-de-l-ge">Formulaire de calcul de l'&acirc;ge</h4><p id="-cxw178_33"><span class="control" id="-cxw178_36">Objectif :</span> Calculer l'&acirc;ge &agrave; partir de l'ann&eacute;e de naissance.</p><p id="-cxw178_34"><span class="control" id="-cxw178_37">D&eacute;tails :</span></p><ul class="list _bullet" id="-cxw178_35"><li class="list__item" id="-cxw178_38"><p id="-cxw178_41">Page JSP avec un formulaire demandant l'ann&eacute;e de naissance.</p></li><li class="list__item" id="-cxw178_39"><p id="-cxw178_42">Servlet qui calcule l'&acirc;ge &agrave; partir de l'ann&eacute;e saisie et de l'ann&eacute;e courante.</p></li><li class="list__item" id="-cxw178_40"><p id="-cxw178_43">Page de r&eacute;sultat affichant l'&acirc;ge calcul&eacute;.</p></li></ul></section><section class="chapter"><h4 id="formulaire-de-conversion-de-devises" data-toc="formulaire-de-conversion-de-devises">Formulaire de conversion de devises</h4><p id="-cxw178_44"><span class="control" id="-cxw178_47">Objectif</span>: Convertir un montant d'une devise &agrave; une autre.</p><p id="-cxw178_45"><span class="control" id="-cxw178_48">D&eacute;tails</span>:</p><ul class="list _bullet" id="-cxw178_46"><li class="list__item" id="-cxw178_49"><p id="-cxw178_52">Page JSP avec un formulaire pour saisir le montant, la devise source et la devise cible.</p></li><li class="list__item" id="-cxw178_50"><p id="-cxw178_53">Servlet qui utilise un taux de conversion fixe pour calculer le montant converti.</p></li><li class="list__item" id="-cxw178_51"><p id="-cxw178_54">Page de r&eacute;sultat affichant la somme convertie.</p></li></ul></section></section></section><section class="chapter"><h2 id="gestion-des-sessions-et-authentification-minimaliste" data-toc="gestion-des-sessions-et-authentification-minimaliste">Gestion des sessions et authentification minimaliste</h2><p id="-cxw178_55"><span class="control" id="-cxw178_59">Structure de l'application</span></p><div class="code-block" data-lang="none">
+</div><section class="chapter"><h3 id="exercice" data-toc="exercice">Exercice</h3><p id="uxhu1g_19">Quelques exercices pour pratiquer les points suivants :</p><ul class="list _bullet" id="uxhu1g_20"><li class="list__item" id="uxhu1g_23"><p id="uxhu1g_28">Utilisation des m&eacute;thodes doGet et doPost dans les servlets.</p></li><li class="list__item" id="uxhu1g_24"><p id="uxhu1g_29">Manipulation des donn&eacute;es re&ccedil;ues depuis les formulaires.</p></li><li class="list__item" id="uxhu1g_25"><p id="uxhu1g_30">Redirection vers des pages JSP pour afficher les r&eacute;sultats.</p></li><li class="list__item" id="uxhu1g_26"><p id="uxhu1g_31">V&eacute;rification et validation des donn&eacute;es saisies.</p></li><li class="list__item" id="uxhu1g_27"><p id="uxhu1g_32">Organisation de l'architecture MVC avec Jakarta Servlets et JSP.</p></li></ul><section class="chapter"><h4 id="formulaire-de-calcul-de-l-ge" data-toc="formulaire-de-calcul-de-l-ge">Formulaire de calcul de l'&acirc;ge</h4><p id="uxhu1g_33"><span class="control" id="uxhu1g_36">Objectif :</span> Calculer l'&acirc;ge &agrave; partir de l'ann&eacute;e de naissance.</p><p id="uxhu1g_34"><span class="control" id="uxhu1g_37">D&eacute;tails :</span></p><ul class="list _bullet" id="uxhu1g_35"><li class="list__item" id="uxhu1g_38"><p id="uxhu1g_41">Page JSP avec un formulaire demandant l'ann&eacute;e de naissance.</p></li><li class="list__item" id="uxhu1g_39"><p id="uxhu1g_42">Servlet qui calcule l'&acirc;ge &agrave; partir de l'ann&eacute;e saisie et de l'ann&eacute;e courante.</p></li><li class="list__item" id="uxhu1g_40"><p id="uxhu1g_43">Page de r&eacute;sultat affichant l'&acirc;ge calcul&eacute;.</p></li></ul></section><section class="chapter"><h4 id="formulaire-de-conversion-de-devises" data-toc="formulaire-de-conversion-de-devises">Formulaire de conversion de devises</h4><p id="uxhu1g_44"><span class="control" id="uxhu1g_47">Objectif</span>: Convertir un montant d'une devise &agrave; une autre.</p><p id="uxhu1g_45"><span class="control" id="uxhu1g_48">D&eacute;tails</span>:</p><ul class="list _bullet" id="uxhu1g_46"><li class="list__item" id="uxhu1g_49"><p id="uxhu1g_52">Page JSP avec un formulaire pour saisir le montant, la devise source et la devise cible.</p></li><li class="list__item" id="uxhu1g_50"><p id="uxhu1g_53">Servlet qui utilise un taux de conversion fixe pour calculer le montant converti.</p></li><li class="list__item" id="uxhu1g_51"><p id="uxhu1g_54">Page de r&eacute;sultat affichant la somme convertie.</p></li></ul></section></section></section><section class="chapter"><h2 id="gestion-des-sessions-et-authentification-minimaliste" data-toc="gestion-des-sessions-et-authentification-minimaliste">Gestion des sessions et authentification minimaliste</h2><p id="uxhu1g_55"><span class="control" id="uxhu1g_59">Structure de l'application</span></p><div class="code-block" data-lang="none">
 myapp/
 ├── src/main/java/fr/mvc/app/controller/
 │   ├── LoginServlet.java
@@ -112,7 +112,7 @@ myapp/
 │   └── WEB-INF/
 │       └── web.xml
 └── pom.xml
-</div><section class="chapter"><h3 id="les-servlets" data-toc="les-servlets">Les servlets</h3><p id="-cxw178_60"><span class="control" id="-cxw178_66">LoginServlet</span></p><div class="code-block" data-lang="java">
+</div><section class="chapter"><h3 id="les-servlets" data-toc="les-servlets">Les servlets</h3><p id="uxhu1g_60"><span class="control" id="uxhu1g_66">LoginServlet</span></p><div class="code-block" data-lang="java">
 package fr.mvc.app.controller;
 
 import jakarta.servlet.ServletException;
@@ -151,7 +151,7 @@ public class LoginServlet extends HttpServlet {
         response.sendRedirect(&quot;welcome&quot;);
     }
 }
-</div><p id="-cxw178_62"><span class="control" id="-cxw178_67">WelcomeServlet</span></p><div class="code-block" data-lang="java">
+</div><p id="uxhu1g_62"><span class="control" id="uxhu1g_67">WelcomeServlet</span></p><div class="code-block" data-lang="java">
 package fr.mvc.app.controller;
 
 import jakarta.servlet.ServletException;
@@ -182,7 +182,7 @@ public class WelcomeServlet extends HttpServlet {
                .forward(request, response);
     }
 }
-</div><p id="-cxw178_64"><span class="control" id="-cxw178_68">LogoutServlet</span></p><div class="code-block" data-lang="java">
+</div><p id="uxhu1g_64"><span class="control" id="uxhu1g_68">LogoutServlet</span></p><div class="code-block" data-lang="java">
 package fr.mvc.app.controller;
 
 import jakarta.servlet.ServletException;
@@ -211,7 +211,7 @@ public class LogoutServlet extends HttpServlet {
                .forward(request, response);
     }
 }
-</div></section><section class="chapter"><h3 id="les-jsp" data-toc="les-jsp">Les JSP</h3><p id="-cxw178_69"><span class="control" id="-cxw178_75">login.jsp</span></p><div class="code-block" data-lang="markup">
+</div></section><section class="chapter"><h3 id="les-jsp" data-toc="les-jsp">Les JSP</h3><p id="uxhu1g_69"><span class="control" id="uxhu1g_75">login.jsp</span></p><div class="code-block" data-lang="markup">
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -226,7 +226,7 @@ public class LogoutServlet extends HttpServlet {
     &lt;/form&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</div><p id="-cxw178_71"><span class="control" id="-cxw178_76">welcome.jsp</span></p><div class="code-block" data-lang="markup">
+</div><p id="uxhu1g_71"><span class="control" id="uxhu1g_76">welcome.jsp</span></p><div class="code-block" data-lang="markup">
 &lt;% 
     String username = (String) session.getAttribute(&quot;userName&quot;);
 %&gt;
@@ -241,7 +241,7 @@ public class LogoutServlet extends HttpServlet {
     &lt;a href=&quot;logout&quot;&gt;Se déconnecter&lt;/a&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</div><p id="-cxw178_73"><span class="control" id="-cxw178_77">logout.jsp</span></p><div class="code-block" data-lang="markup">
+</div><p id="uxhu1g_73"><span class="control" id="uxhu1g_77">logout.jsp</span></p><div class="code-block" data-lang="markup">
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -325,7 +325,7 @@ public class UploadServlet extends HttpServlet {
 
 }
 
-</div><section class="chapter"><h3 id="les-options-de-multipartconfig" data-toc="les-options-de-multipartconfig">Les options de <code class="code" id="-cxw178_83">@MultipartConfig</code></h3><dl id="-cxw178_82" data-style="title-top"><dt id="-cxw178_84" data-expandable="false"><code class="code" id="-cxw178_89">fileSizeThreshold</code></dt><dd><p id="-cxw178_88">Taille limite en octets avant que le fichier ne soit &eacute;crit sur le disque. Si la taille est inf&eacute;rieure &agrave; ce seuil le fichier sera stock&eacute; en m&eacute;moire vive.</p></dd><dt id="-cxw178_85" data-expandable="false"><code class="code" id="-cxw178_92">maxFileSize</code></dt><dd><p id="-cxw178_91">Taille maximale d'un seul fichier upload&eacute;.</p></dd><dt id="-cxw178_86" data-expandable="false"><code class="code" id="-cxw178_95">maxRequestSize</code></dt><dd><p id="-cxw178_94">Taille maximale pour l'ensemble de la requ&ecirc;te, c'est-&agrave;-dire tous les fichiers et autres param&egrave;tres du formulaire combin&eacute;s.</p></dd></dl></section><section class="chapter"><h3 id="inf-rer-le-mime-type" data-toc="inf-rer-le-mime-type">Inf&eacute;rer le mime type</h3><p id="-cxw178_96">La m&eacute;thode <code class="code" id="-cxw178_99">probeContentType</code> de <code class="code" id="-cxw178_100">nio</code> permet de conna&icirc;tre le mime type d'un fichier sans passer par l'extension. Voici une classe utilitaire qui r&eacute;alise la conversion.</p><div class="code-block" data-lang="java">
+</div><section class="chapter"><h3 id="les-options-de-multipartconfig" data-toc="les-options-de-multipartconfig">Les options de <code class="code" id="uxhu1g_83">@MultipartConfig</code></h3><dl id="uxhu1g_82" data-style="title-top"><dt id="uxhu1g_84" data-expandable="false"><code class="code" id="uxhu1g_89">fileSizeThreshold</code></dt><dd><p id="uxhu1g_88">Taille limite en octets avant que le fichier ne soit &eacute;crit sur le disque. Si la taille est inf&eacute;rieure &agrave; ce seuil le fichier sera stock&eacute; en m&eacute;moire vive.</p></dd><dt id="uxhu1g_85" data-expandable="false"><code class="code" id="uxhu1g_92">maxFileSize</code></dt><dd><p id="uxhu1g_91">Taille maximale d'un seul fichier upload&eacute;.</p></dd><dt id="uxhu1g_86" data-expandable="false"><code class="code" id="uxhu1g_95">maxRequestSize</code></dt><dd><p id="uxhu1g_94">Taille maximale pour l'ensemble de la requ&ecirc;te, c'est-&agrave;-dire tous les fichiers et autres param&egrave;tres du formulaire combin&eacute;s.</p></dd></dl></section><section class="chapter"><h3 id="inf-rer-le-mime-type" data-toc="inf-rer-le-mime-type">Inf&eacute;rer le mime type</h3><p id="uxhu1g_96">La m&eacute;thode <code class="code" id="uxhu1g_99">probeContentType</code> de <code class="code" id="uxhu1g_100">nio</code> permet de conna&icirc;tre le mime type d'un fichier sans passer par l'extension. Voici une classe utilitaire qui r&eacute;alise la conversion.</p><div class="code-block" data-lang="java">
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -373,4 +373,4 @@ public class MimeTypeUtils {
     }
 }
 
-</div><p id="-cxw178_98">Int&eacute;grer cette classe dans le code de l'upload</p></section></section><div class="last-modified">Last modified: 13 avril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="001-00-java-server-pages-jsp.html" class="navigation-links__prev">Java Server Pages (JSP)</a><a href="002-01-java-standard-tag-library-jstl.html" class="navigation-links__next">Java Standard Tag Library (JSTL)</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.js"></script></body></html>
+</div><p id="uxhu1g_98">Int&eacute;grer cette classe dans le code de l'upload</p></section></section><div class="last-modified">Last modified: 15 avril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="001-00-java-server-pages-jsp.html" class="navigation-links__prev">Java Server Pages (JSP)</a><a href="002-01-java-standard-tag-library-jstl.html" class="navigation-links__next">Java Standard Tag Library (JSTL)</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.js"></script></body></html>

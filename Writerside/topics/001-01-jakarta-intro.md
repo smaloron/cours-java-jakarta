@@ -95,6 +95,35 @@ public class HelloServlet extends HttpServlet {
   - `response.setContentType("text/html")` : Définit le type de réponse.
   - `PrintWriter out = response.getWriter()` : Permet d'écrire la réponse.
 
+### Les méthodes de la classe HttpServlet
+
+| Méthode                                                       | Description                     |
+|---------------------------------------------------------------|---------------------------------|
+| `doGet(HttpServletRequest req, HttpServletResponse resp)`     | Gère les requêtes HTTP GET.     |
+| `doPost(HttpServletRequest req, HttpServletResponse resp)`    | Gère les requêtes HTTP POST.    |
+| `doPut(HttpServletRequest req, HttpServletResponse resp)`     | Gère les requêtes HTTP PUT.     |
+| `doDelete(HttpServletRequest req, HttpServletResponse resp)`  | Gère les requêtes HTTP DELETE.  |
+| `doHead(HttpServletRequest req, HttpServletResponse resp)`    | Gère les requêtes HTTP HEAD.    |
+| `doOptions(HttpServletRequest req, HttpServletResponse resp)` | Gère les requêtes HTTP OPTIONS. |
+| `doTrace(HttpServletRequest req, HttpServletResponse resp)`   | Gère les requêtes HTTP TRACE.   |
+
+Le verbe HTTP TRACE permet au client d'envoyer une requête au serveur, qui lui renverra exactement ce qu’il a reçu, sans modification.
+Cela permet de voir si une requête HTTP est altérée (par un proxy, un pare-feu, etc.) entre le client et le serveur.
+
+Le verbe HTTP HEAD se comporte comme comme GET, 
+excepté qu’il ne renvoie que les en-têtes HTTP de la réponse, 
+sans le contenu.
+
+Le verbe HTTP OPTIONS est utilisé pour interroger le serveur et lui demander quelles méthodes HTTP sont autorisées pour 
+une ressource donnée.
+
+| Méthode                                                     | Description                                                                                                                                                    |
+|-------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `init()`                                                    | Appelée une fois lors de l’instanciation de la servlet (initialisation).                                                                                       |
+| `destroy()`                                                 | Appelée une fois avant que la servlet ne soit retirée (nettoyage).                                                                                             |
+| `service(HttpServletRequest req, HttpServletResponse resp)` | Gère toutes les requêtes HTTP. Généralement, on ne la surcharges pas car elle appelle automatiquement `doGet`, `doPost`, etc., selon la méthode HTTP utilisée. |
+
+
 ### Déploiement d'un servlet
 
 Pour déployer l'application, il faut tout d'abord la compiler et l'empaqueter dans un fichier `.war` (web archive). 
@@ -123,6 +152,7 @@ Jakarta EE repose sur des serveurs d’applications compatibles qui implémenten
 - JAX-RS (API RESTful)
 - Jakarta Transactions (JTA) (gestion des transactions)
 - Jakarta Security (authentification et autorisation)
+- Jakarta Persistence (JPA) (gestion des bases de données avec ORM)
 
 **✅ Avantages :**
 
@@ -149,7 +179,6 @@ Jakarta EE repose sur des serveurs d’applications compatibles qui implémenten
 - Jakarta Batch (traitement de lots)
 - Jakarta Concurrency (gestion des threads)
 - Jakarta Connector (JCA) (intégration avec des systèmes externes)
-- Jakarta Persistence (JPA) (gestion des bases de données avec ORM)
 
 **✅ Avantages :**
 
@@ -218,7 +247,7 @@ for /f "tokens=5" %%i in ('netstat -aon ^| findstr :8181') do taskkill /F /PID %
 
 timeout /t 2 /nobreak > nul
 
-java -jar payara-micro.jar --deploymentDir ./target --contextRoot / --port 8181
+java -jar payara-micro.jar --deploymentDir ./target --contextRoot / --port 8080
 ```
 
 <!--

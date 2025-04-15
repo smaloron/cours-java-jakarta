@@ -1,0 +1,318 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-04-15T09:05:21.188971"><title>Les filtres HTTP | Jakarta</title><script type="application/json" id="virtual-toc-data">[{"id":"quelques-cas-d-utilisation-fr-quents","level":0,"title":"Quelques cas d\u0027utilisation fréquents","anchor":"#quelques-cas-d-utilisation-fr-quents"},{"id":"la-syntaxe-des-filtres","level":0,"title":"La syntaxe des filtres","anchor":"#la-syntaxe-des-filtres"},{"id":"quelques-utilisations-standards","level":0,"title":"Quelques utilisations standards","anchor":"#quelques-utilisations-standards"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Les filtres HTTP | Jakarta"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Jakarta Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/004-00-les-filtres-http.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Les filtres HTTP | Jakarta"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/004-00-les-filtres-http.html#webpage",
+    "url": "writerside-documentation/004-00-les-filtres-http.html",
+    "name": "Les filtres HTTP | Jakarta",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Jakarta Help"
+}</script><!-- End Schema.org --></head><body data-id="004-00-Les-filtres-HTTP" data-main-title="Les filtres HTTP" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs=""><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Jakarta  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="004-00-Les-filtres-HTTP" id="004-00-Les-filtres-HTTP.md">Les filtres HTTP</h1><p id="kc3x1x_3">Dans Jakarta, un filtre web ou filtre HTTP est une classe qui intercepte la requ&ecirc;te ou la r&eacute;ponse. Elle agit donc avant ou apr&egrave;s la r&eacute;solution de la route.</p><p id="kc3x1x_4"><span class="control" id="kc3x1x_9">Sch&eacute;ma de l'ex&eacute;cution des filtres</span></p><div class="code-block" data-lang="none">
+[Client HTTP]
+     |
+     v
+[Filtre(s)] ---&gt; peut bloquer ou modifier la requête
+     |
+     v
+[Servlet / JSP / Static file]
+     |
+     v
+[Filtre(s)] ---&gt; peut modifier la réponse
+     |
+     v
+[Client HTTP]
+</div><section class="chapter"><h2 id="quelques-cas-d-utilisation-fr-quents" data-toc="quelques-cas-d-utilisation-fr-quents">Quelques cas d'utilisation fr&eacute;quents</h2><ul class="list _bullet" id="kc3x1x_10"><li class="list__item" id="kc3x1x_11"><p id="kc3x1x_18">Authentifier ou autoriser l&rsquo;acc&egrave;s &agrave; des ressources</p></li><li class="list__item" id="kc3x1x_12"><p id="kc3x1x_19">Compresser les r&eacute;ponses (gzip)</p></li><li class="list__item" id="kc3x1x_13"><p id="kc3x1x_20">G&eacute;rer les ent&ecirc;tes CORS</p></li><li class="list__item" id="kc3x1x_14"><p id="kc3x1x_21">Logger les acc&egrave;s</p></li><li class="list__item" id="kc3x1x_15"><p id="kc3x1x_22">Modifier les requ&ecirc;tes/r&eacute;ponses</p></li><li class="list__item" id="kc3x1x_16"><p id="kc3x1x_23">Ajouter des en-t&ecirc;tes HTTP</p></li><li class="list__item" id="kc3x1x_17"><p id="kc3x1x_24">Compter les visites</p></li></ul></section><section class="chapter"><h2 id="la-syntaxe-des-filtres" data-toc="la-syntaxe-des-filtres">La syntaxe des filtres</h2><p id="kc3x1x_25">Les filtres sont d&eacute;finis par l'annotation <code class="code" id="kc3x1x_29">@WebFilter</code> et doivent impl&eacute;menter l'interface <code class="code" id="kc3x1x_30">Filter</code> du package <code class="code" id="kc3x1x_31">Jakarta.Servlet</code>.</p><section class="chapter"><h3 id="un-filtre-de-requ-te-simple" data-toc="un-filtre-de-requ-te-simple">Un filtre de requ&ecirc;te simple</h3><p id="kc3x1x_32">Ce filtre ajoute un attribut <code class="code" id="kc3x1x_34">role</code> &agrave; toutes les routes qui commencent par <code class="code" id="kc3x1x_35">/dashboard/</code>. Attention, l'instruction <code class="code" id="kc3x1x_36">chain.doFilter(request, response);</code> est importante, sans elle la requ&ecirc;te restera bloqu&eacute;e sur le filtre et la route ne pourra &ecirc;tre r&eacute;solue.</p><div class="code-block" data-lang="java">
+package fr.formation.jakarta.filters;
+
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
+@WebFilter(urlPatterns = {&quot;/dashboard/*&quot;})
+public class RoleInjectFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain)
+            throws IOException, ServletException {
+
+        // On cast vers HttpServletRequest pour accéder aux méthodes HTTP
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+
+        // Injection d'un attribut dans la requête
+        httpRequest.setAttribute(&quot;userRole&quot;, &quot;admin&quot;);
+
+        // On passe la requête modifiée à la suite de la chaîne
+        chain.doFilter(request, response);
+    }
+}
+
+</div></section><section class="chapter"><h3 id="un-filtre-qui-modifie-la-r-ponse-http" data-toc="un-filtre-qui-modifie-la-r-ponse-http">Un filtre qui modifie la r&eacute;ponse HTTP</h3><div class="code-block" data-lang="java">
+package fr.formation.jakarta.filters;
+
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebFilter(urlPatterns = {&quot;/*&quot;}) // Toutes les URL
+public class HeaderInjectionFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain)
+                         throws IOException, ServletException {
+
+        // On cast en HttpServletResponse
+        HttpServletResponse httpResp = (HttpServletResponse) response;
+
+        // Ajout d’un en-tête personnalisé
+        httpResp.setHeader(&quot;X-App-Name&quot;, &quot;MySuperApp&quot;);
+
+        // Poursuite de la chaîne
+        chain.doFilter(request, response);
+    }
+}
+</div></section><section class="chapter"><h3 id="les-attributs-de-webfilter" data-toc="les-attributs-de-webfilter">Les attributs de @WebFilter</h3><div class="table-wrapper"><table class="wide" id="kc3x1x_38"><thead><tr class="ijRowHead" id="kc3x1x_41"><th id="kc3x1x_48"><p>Attribut</p></th><th id="kc3x1x_49"><p>Type</p></th><th id="kc3x1x_50"><p>Description</p></th></tr></thead><tbody><tr id="kc3x1x_42"><td id="kc3x1x_51"><p><code class="code" id="kc3x1x_54">filterName</code></p></td><td id="kc3x1x_52"><p><code class="code" id="kc3x1x_55">String</code></p></td><td id="kc3x1x_53"><p>Nom du filtre (facultatif).</p></td></tr><tr id="kc3x1x_43"><td id="kc3x1x_56"><p><code class="code" id="kc3x1x_59">urlPatterns</code></p></td><td id="kc3x1x_57"><p><code class="code" id="kc3x1x_60">String[]</code></p></td><td id="kc3x1x_58"><p>URLs cibl&eacute;es (ex. <code class="code" id="kc3x1x_61">/admin/*</code>).</p></td></tr><tr id="kc3x1x_44"><td id="kc3x1x_62"><p><code class="code" id="kc3x1x_65">value</code></p></td><td id="kc3x1x_63"><p><code class="code" id="kc3x1x_66">String[]</code></p></td><td id="kc3x1x_64"><p>Alias de <code class="code" id="kc3x1x_67">urlPatterns</code> (&agrave; ne pas combiner).</p></td></tr><tr id="kc3x1x_45"><td id="kc3x1x_68"><p><code class="code" id="kc3x1x_71">servletNames</code></p></td><td id="kc3x1x_69"><p><code class="code" id="kc3x1x_72">String[]</code></p></td><td id="kc3x1x_70"><p>Noms de servlets cibl&eacute;es.</p></td></tr><tr id="kc3x1x_46"><td id="kc3x1x_73"><p><code class="code" id="kc3x1x_76">dispatcherTypes</code></p></td><td id="kc3x1x_74"><p><code class="code" id="kc3x1x_77">DispatcherType[]</code></p></td><td id="kc3x1x_75"><p>Types d&rsquo;interception (voir ci-dessous).</p></td></tr><tr id="kc3x1x_47"><td id="kc3x1x_78"><p><code class="code" id="kc3x1x_81">initParams</code></p></td><td id="kc3x1x_79"><p><code class="code" id="kc3x1x_82">WebInitParam[]</code></p></td><td id="kc3x1x_80"><p>Param&egrave;tres d'initialisation.</p></td></tr></tbody></table></div><p id="kc3x1x_39"><span class="control" id="kc3x1x_83">Les types de dispatch</span></p><div class="table-wrapper"><table class="wide" id="kc3x1x_40"><thead><tr class="ijRowHead" id="kc3x1x_84"><th id="kc3x1x_90"><p>Type</p></th><th id="kc3x1x_91"><p>Quand il s&rsquo;applique</p></th></tr></thead><tbody><tr id="kc3x1x_85"><td id="kc3x1x_92"><p><code class="code" id="kc3x1x_94">REQUEST</code></p></td><td id="kc3x1x_93"><p>Requ&ecirc;te HTTP classique.</p></td></tr><tr id="kc3x1x_86"><td id="kc3x1x_95"><p><code class="code" id="kc3x1x_97">FORWARD</code></p></td><td id="kc3x1x_96"><p>Via <code class="code" id="kc3x1x_98">RequestDispatcher.forward()</code>.</p></td></tr><tr id="kc3x1x_87"><td id="kc3x1x_99"><p><code class="code" id="kc3x1x_101">INCLUDE</code></p></td><td id="kc3x1x_100"><p>Via <code class="code" id="kc3x1x_102">RequestDispatcher.include()</code>.</p></td></tr><tr id="kc3x1x_88"><td id="kc3x1x_103"><p><code class="code" id="kc3x1x_105">ERROR</code></p></td><td id="kc3x1x_104"><p>Lors d&rsquo;une redirection vers une page d&rsquo;erreur.</p></td></tr><tr id="kc3x1x_89"><td id="kc3x1x_106"><p><code class="code" id="kc3x1x_108">ASYNC</code></p></td><td id="kc3x1x_107"><p>Lors d&rsquo;un traitement asynchrone.</p></td></tr></tbody></table></div></section></section><section class="chapter"><h2 id="quelques-utilisations-standards" data-toc="quelques-utilisations-standards">Quelques utilisations standards</h2><section class="chapter"><h3 id="test-de-l-authentification" data-toc="test-de-l-authentification">Test de l'authentification</h3><div class="code-block" data-lang="java">
+package fr.formation.jakarta.filters;
+
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+
+// Sécurise toutes les routes /admin
+@WebFilter(urlPatterns = {&quot;/admin/*&quot;})
+public class AuthFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain)
+                         throws IOException, ServletException {
+
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+
+        // On récupère la session sans la créer
+        HttpSession session = req.getSession(false);
+
+        boolean isLoggedIn = (session != null &amp;&amp;
+                              session.getAttribute(&quot;user&quot;) != null);
+
+        if (isLoggedIn) {
+            // L'utilisateur est connecté : on continue
+            chain.doFilter(request, response);
+        } else {
+            // L'utilisateur n'est pas connecté : redirection
+            res.sendRedirect(req.getContextPath() + &quot;/login&quot;);
+        }
+    }
+}
+</div><aside class="prompt" data-type="tip" data-title="" id="kc3x1x_113"><p id="kc3x1x_114">Sur le m&ecirc;me principe, il est possible de tester la propri&eacute;t&eacute; <code class="code" id="kc3x1x_115">role</code> de <code class="code" id="kc3x1x_116">User</code> dans un filtre d'autorisation.</p></aside></section><section class="chapter"><h3 id="injection-de-cors" data-toc="injection-de-cors">Injection de CORS</h3><div class="code-block" data-lang="java">
+package fr.formation.jakarta.filters;
+
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebFilter(&quot;/*&quot;) // Appliquer à toutes les requêtes
+public class CorsFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain)
+                         throws IOException, ServletException {
+
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+
+        // ⚙️ En-têtes CORS standards
+        res.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
+        res.setHeader(&quot;Access-Control-Allow-Methods&quot;,
+                      &quot;GET, POST, PUT, DELETE, OPTIONS&quot;);
+        res.setHeader(&quot;Access-Control-Allow-Headers&quot;,
+                      &quot;Content-Type, Authorization&quot;);
+        res.setHeader(&quot;Access-Control-Max-Age&quot;, &quot;3600&quot;);
+
+        // Réponse directe aux requêtes OPTIONS (pré-vol CORS)
+        if (&quot;OPTIONS&quot;.equalsIgnoreCase(req.getMethod())) {
+            res.setStatus(HttpServletResponse.SC_OK);
+            return; // Pas besoin de passer au filtre suivant
+        }
+
+        // Requête normale : on continue
+        chain.doFilter(request, response);
+    }
+}
+</div></section><section class="chapter"><h3 id="mode-maintenance" data-toc="mode-maintenance">Mode maintenance</h3><div class="code-block" data-lang="java">
+package fr.formation.jakarta.filters;
+
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.annotation.WebInitParam;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebFilter(
+    urlPatterns = {&quot;/*&quot;},
+    initParams = {
+        @WebInitParam(name = &quot;maintenance&quot;, value = &quot;true&quot;) // toggle ici
+    }
+)
+public class MaintenanceFilter implements Filter {
+
+    private boolean maintenanceMode = false;
+
+    @Override
+    public void init(FilterConfig filterConfig) {
+        String param = filterConfig.getInitParameter(&quot;maintenance&quot;);
+        maintenanceMode = Boolean.parseBoolean(param);
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain)
+                         throws IOException, ServletException {
+
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+
+        String path = req.getRequestURI();
+        String ip = req.getRemoteAddr();
+
+        // URLs autorisées même en maintenance
+        boolean isAllowedPath = path.contains(&quot;/admin&quot;) || path.contains(&quot;/login&quot;);
+        boolean isTrustedIP = ip.equals(&quot;127.0.0.1&quot;); // Dev local autorisé
+
+        if (maintenanceMode &amp;&amp; !isAllowedPath &amp;&amp; !isTrustedIP) {
+            // Réponse personnalisée
+            res.setContentType(&quot;text/html&quot;);
+            res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            res.getWriter().write(
+                &quot;&lt;h1&gt;Maintenance en cours&lt;/h1&gt;&quot; +
+                &quot;&lt;p&gt;Le site est temporairement indisponible.&lt;/p&gt;&quot;
+            );
+        } else {
+            // Requête normale
+            chain.doFilter(request, response);
+        }
+    }
+}
+</div><section class="chapter"><h4 id="variante-avec-une-variable-d-environnement" data-toc="variante-avec-une-variable-d-environnement">Variante avec une variable d'environnement`</h4><div class="code-block" data-lang="bash">
+export MAINTENANCE_MODE=true
+</div><div class="code-block" data-lang="java">
+package fr.formation.jakarta.filters;
+
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebFilter(&quot;/*&quot;)
+public class MaintenanceFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain)
+                         throws IOException, ServletException {
+
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+
+        String path = req.getRequestURI();
+        String ip = req.getRemoteAddr();
+
+        // Lecture dynamique de la variable d'environnement
+        String mode = System.getenv(&quot;MAINTENANCE_MODE&quot;);
+        boolean maintenance = &quot;true&quot;.equalsIgnoreCase(mode);
+
+        boolean isAllowedPath =
+            path.contains(&quot;/admin&quot;) || path.contains(&quot;/login&quot;);
+
+        boolean isTrustedIP = ip.equals(&quot;127.0.0.1&quot;);
+
+        if (maintenance &amp;&amp; !isAllowedPath &amp;&amp; !isTrustedIP) {
+            res.setContentType(&quot;text/html&quot;);
+            res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            res.getWriter().write(
+                &quot;&lt;h1&gt;Maintenance en cours&lt;/h1&gt;&quot; +
+                &quot;&lt;p&gt;Le site sera bientôt de retour.&lt;/p&gt;&quot;
+            );
+        } else {
+            chain.doFilter(request, response);
+        }
+    }
+}
+</div></section><section class="chapter"><h4 id="variante-avec-un-fichier-properties" data-toc="variante-avec-un-fichier-properties">Variante avec un fichier properties</h4><div class="code-block" data-lang="java">
+package fr.formation.jakarta.filters;
+
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+@WebFilter(&quot;/*&quot;)
+public class MaintenanceFilterProperties implements Filter {
+
+    private boolean maintenanceMode = false;
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        try {
+            String path = filterConfig.getServletContext()
+                .getRealPath(&quot;/WEB-INF/config/maintenance.properties&quot;);
+
+            Properties props = new Properties();
+            props.load(new FileInputStream(path));
+
+            maintenanceMode = &quot;true&quot;.equalsIgnoreCase(
+                props.getProperty(&quot;maintenance&quot;, &quot;false&quot;)
+            );
+        } catch (IOException e) {
+            throw new ServletException(&quot;Impossible de lire le fichier de configuration&quot;, e);
+        }
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain)
+                         throws IOException, ServletException {
+
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+
+        String path = req.getRequestURI();
+        String ip = req.getRemoteAddr();
+
+        boolean isAllowedPath = path.contains(&quot;/admin&quot;) || path.contains(&quot;/login&quot;);
+        boolean isTrustedIP = ip.equals(&quot;127.0.0.1&quot;);
+
+        if (maintenanceMode &amp;&amp; !isAllowedPath &amp;&amp; !isTrustedIP) {
+            res.setContentType(&quot;text/html&quot;);
+            res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            res.getWriter().write(&quot;&lt;h1&gt;Site en maintenance&lt;/h1&gt;&quot;);
+        } else {
+            chain.doFilter(request, response);
+        }
+    }
+}
+</div></section></section></section><div class="last-modified">Last modified: 15 avril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="003-00-moteur-de-template-pebble.html" class="navigation-links__prev">Moteur de template Pebble</a><a href="004-00-hibernate-et-jpa.html" class="navigation-links__next">Hibernate et JPA</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.js"></script></body></html>

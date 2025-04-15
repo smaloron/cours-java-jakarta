@@ -12,6 +12,7 @@
     </toc-element>
     <toc-element topic="002-01-Java-Standard-Tag-Library-JSTL.md"/>
     <toc-element topic="003-00-Moteur-de-template-Pebble.md"/>
+    <toc-element topic="004-00-Les-filtres-HTTP.md"/>
     <toc-element topic="004-00-Hibernate-et-JPA.md">
         <toc-element topic="004-01-Les-associations.md"/>
         <toc-element topic="004-02-JPQL-Jakarta-Persistence-Query-Language.md"/>
