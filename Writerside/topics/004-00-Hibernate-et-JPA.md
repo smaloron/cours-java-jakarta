@@ -59,22 +59,26 @@ La configuration s'effectue dans un fichier `persistence.xml` qui se place dans 
 `hibernate.cfg.xml` et aura une structure différente.
 
 ```xml
-
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             version="2.2">
-    <persistence-unit name="MyPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
+             version="3.1">
+    <persistence-unit name="pu" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>fr.mvc.app.model.entity.User</class>
+
         <properties>
             <property name="hibernate.connection.driver_class" value="org.mariadb.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mariadb://localhost:3306/mydb"/>
-            <property name="hibernate.connection.username" value="root"/>
-            <property name="hibernate.connection.password" value="password"/>
+            <property name="hibernate.connection.url" value="jdbc:mariadb://mariadb:3306/formation"/>
+            <property name="hibernate.connection.username" value="user"/>
+            <property name="hibernate.connection.password" value="123"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.archive.autodetection" value="class"/>
         </properties>
+
     </persistence-unit>
 </persistence>
 ```
@@ -413,6 +417,7 @@ public class Main {
 
 > Si Hibernate a été configuré en ce sens, la table sera créé automatiquement lors de la persistence. Il n'y a pas de 
 migrations à générer et à exécuter.
+
 
 ### Récupération d'une entité
 
