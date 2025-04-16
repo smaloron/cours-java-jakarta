@@ -38,11 +38,11 @@ JSTL est composée de plusieurs bibliothèques de balises regroupées en cinq ca
 Chaque JSP doit déclarer les bibliothèques qu'elle utilise en début de fichier dans une directive.
 
 ```jsp
-<%@ taglib uri="http://jakarta.ee/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://jakarta.ee/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://jakarta.ee/jsp/jstl/sql" prefix="sql" %>
-<%@ taglib uri="http://jakarta.ee/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://jakarta.ee/jsp/jstl/xml" prefix="xml" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
+<%@ taglib uri="jakarta.tags.sql" prefix="sql" %>
+<%@ taglib uri="jakarta.tags.functions" prefix="fn" %>
+<%@ taglib uri="hjakarta.tags.xml" prefix="xml" %>
 ```
 
 ## Les balises Core

@@ -389,3 +389,410 @@ public class MaintenanceFilterProperties implements Filter {
     }
 }
 ```
+
+### La gestion des exceptions
+
+Cette classe intercepte les exceptions levées par les Servlets. Elle permet donc de centraliser la gestion des erreurs.
+
+
+```java
+package fr.formation.jakarta.filter;
+
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+@WebFilter("/*")
+public class GlobalExceptionFilter implements Filter {
+
+    // Passe à false pour le mode production
+    private static final boolean IS_DEV = true;
+
+    @Override
+    public void doFilter(
+            ServletRequest request,
+            ServletResponse response,
+            FilterChain chain
+    ) throws IOException, ServletException {
+        try {
+            chain.doFilter(request, response);
+        } catch (Throwable ex) {
+            HttpServletResponse resp = (HttpServletResponse) response;
+            resp.setContentType("text/html");
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+            PrintWriter writer = resp.getWriter();
+
+            if (IS_DEV) {
+                // En mode dev : afficher le détail de l'erreur
+                writer.println("<html><head><title>Erreur serveur</title></head><body>");
+                writer.println("<h1>Erreur serveur</h1>");
+                writer.println("<p><strong>Exception :</strong> " +
+                        ex.getClass().getName() + "</p>");
+                writer.println("<p><strong>Message :</strong> " +
+                        ex.getMessage() + "</p>");
+
+                // Stack trace dans une balise <pre>
+                StringWriter sw = new StringWriter();
+                ex.printStackTrace(new PrintWriter(sw));
+                writer.println("<pre>" + sw.toString() + "</pre>");
+                writer.println("</body></html>");
+            } else {
+                // En mode prod : page plus simple
+                writer.println("<html><head><title>Erreur</title></head><body>");
+                writer.println("<h1>Une erreur est survenue</h1>");
+                writer.println("</body></html>");
+            }
+
+            writer.close();
+        }
+    }
+}
+```
+
+**Améliorations possibles**
+
+- Utiliser un fichier .env pour gérer le mode d'exécution (dev ou prod)
+- Utiliser Pebble pour l'affichage
+- Enregistrer les erreurs dans un log en mode prod
+
+#### Ajout d'un fichier .env
+
+Fichier `.env` à la racine du projet, ajouter ce fichier à gitignore.
+```
+APP_MODE=dev
+```
+
+Pour cela, il faut ajouter la bibliothèque dotenv.
+
+```xml
+<dependency>
+    <groupId>io.github.cdimascio</groupId>
+    <artifactId>java-dotenv</artifactId>
+    <version>5.2.2</version>
+</dependency>
+```
+
+```java
+package fr.formation.jakarta.filter;
+
+import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+@WebFilter("/*")
+public class GlobalExceptionFilter implements Filter {
+
+    private boolean isDev;
+
+    @Override
+    public void init(FilterConfig filterConfig) {
+        // Chargement du fichier .env
+        Dotenv dotenv = Dotenv.configure()
+                              .ignoreIfMissing()
+                              .load();
+
+        String env = dotenv.get("APP_ENV", "prod").toLowerCase();
+        isDev = env.equals("dev");
+    }
+
+    @Override
+    public void doFilter(
+            ServletRequest request,
+            ServletResponse response,
+            FilterChain chain
+    ) throws IOException, ServletException {
+        try {
+            chain.doFilter(request, response);
+        } catch (Throwable ex) {
+            HttpServletResponse resp = (HttpServletResponse) response;
+            resp.setContentType("text/html");
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+            PrintWriter writer = resp.getWriter();
+
+            if (isDev) {
+                writer.println("<html><head><title>Erreur serveur</title></head><body>");
+                writer.println("<h1>Erreur serveur</h1>");
+                writer.println("<p><strong>Exception :</strong> " +
+                        ex.getClass().getName() + "</p>");
+                writer.println("<p><strong>Message :</strong> " +
+                        ex.getMessage() + "</p>");
+
+                StringWriter sw = new StringWriter();
+                ex.printStackTrace(new PrintWriter(sw));
+                writer.println("<pre>" + sw.toString() + "</pre>");
+                writer.println("</body></html>");
+            } else {
+                writer.println("<html><head><title>Erreur</title></head><body>");
+                writer.println("<h1>Une erreur est survenue</h1>");
+                writer.println("</body></html>");
+            }
+
+            writer.close();
+        }
+    }
+}
+```
+
+#### Utilisation de Pebble
+
+```java
+package fr.formation.jakarta.filter;
+
+import io.github.cdimascio.dotenv.Dotenv;
+import io.pebbletemplates.pebble.PebbleEngine;
+import io.pebbletemplates.pebble.loader.ClasspathLoader;
+import io.pebbletemplates.pebble.template.PebbleTemplate;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
+@WebFilter("/*")
+public class GlobalExceptionFilter implements Filter {
+
+    private boolean isDev;
+    private PebbleEngine pebble;
+
+    @Override
+    public void init(FilterConfig filterConfig) {
+        Dotenv dotenv = Dotenv.configure()
+                              .ignoreIfMissing()
+                              .load();
+        String env = dotenv.get("APP_ENV", "prod").toLowerCase();
+        isDev = env.equals("dev");
+
+        ClasspathLoader loader = new ClasspathLoader();
+        loader.setPrefix("templates");
+
+        pebble = new PebbleEngine.Builder()
+                .loader(loader)
+                .build();
+    }
+
+    @Override
+    public void doFilter(
+            ServletRequest request,
+            ServletResponse response,
+            FilterChain chain
+    ) throws IOException, ServletException {
+        try {
+            chain.doFilter(request, response);
+        } catch (Throwable ex) {
+            HttpServletResponse resp = (HttpServletResponse) response;
+            resp.setContentType("text/html");
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+            Map<String, Object> context = new HashMap<>();
+            if (isDev) {
+                context.put("exception", ex.getClass().getName());
+                context.put("message", ex.getMessage());
+
+                StringWriter sw = new StringWriter();
+                ex.printStackTrace(new PrintWriter(sw));
+                context.put("stacktrace", sw.toString());
+
+                renderTemplate(resp, "error-dev.peb", context);
+            } else {
+                renderTemplate(resp, "error.peb", context);
+            }
+        }
+    }
+
+    private void renderTemplate(
+            HttpServletResponse response,
+            String templateName,
+            Map<String, Object> context
+    ) throws IOException {
+        try (Writer writer = response.getWriter()) {
+            PebbleTemplate template = pebble.getTemplate(templateName);
+            template.evaluate(writer, context);
+        } catch (Exception e) {
+            throw new IOException("Erreur de rendu du template", e);
+        }
+    }
+}
+
+```
+
+**Les modèles**
+
+**error.peb**
+```twig
+{% extends "layout.peb" %}
+
+{% block title %} Erreur {% endblock %}
+
+{% block content %} 
+    <h1>Une erreur est survenue</h1>
+    <p>Veuillez réessayer plus tard.</p>
+{% endblock %}
+```
+
+**error-dev.peb**
+```twig
+{% extends "layout.peb" %}
+
+{% block title %} Erreur {% endblock %}
+
+{% block content %} 
+    <h1>Erreur interne</h1>
+    <p><strong>Exception :</strong> {{ exception }}</p>
+    <p><strong>Message :</strong> {{ message }}</p>
+    <pre>{{ stacktrace }}</pre>
+{% endblock %}
+```
+
+#### Ajout d'un log des erreurs
+
+Pour cela il faut installer un logger dans les dépendances du projet.
+
+```xml
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>2.0.12</version>
+</dependency>
+
+<!-- Implémentation avec Logback -->
+<dependency>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-classic</artifactId>
+    <version>1.4.14</version>
+</dependency>
+```
+
+Puis paramétrer le format du log dans un fichier `logback.xml` (dans `src/main/resources/`).
+
+```xml
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
+```
+
+Et enfin utiliser le logger dans la classe GlobalExceptionFilter.
+
+```java
+package fr.formation.jakarta.filter;
+
+import io.github.cdimascio.dotenv.Dotenv;
+import io.pebbletemplates.pebble.PebbleEngine;
+import io.pebbletemplates.pebble.loader.ClasspathLoader;
+import io.pebbletemplates.pebble.template.PebbleTemplate;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
+@WebFilter("/*")
+public class GlobalExceptionFilter implements Filter {
+
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(GlobalExceptionFilter.class);
+
+    private boolean isDev;
+    private PebbleEngine pebble;
+
+    @Override
+    public void init(FilterConfig filterConfig) {
+        Dotenv dotenv = Dotenv.configure()
+                              .ignoreIfMissing()
+                              .load();
+
+        String env = dotenv.get("APP_ENV", "prod").toLowerCase();
+        isDev = env.equals("dev");
+
+        ClasspathLoader loader = new ClasspathLoader();
+        loader.setPrefix("templates");
+
+        pebble = new PebbleEngine.Builder()
+                .loader(loader)
+                .build();
+
+        LOGGER.info("GlobalExceptionFilter initialisé (mode : {})",
+                    isDev ? "dev" : "prod");
+    }
+
+    @Override
+    public void doFilter(
+            ServletRequest request,
+            ServletResponse response,
+            FilterChain chain
+    ) throws IOException, ServletException {
+        try {
+            chain.doFilter(request, response);
+        } catch (Throwable ex) {
+            LOGGER.error("Erreur serveur interceptée", ex);
+
+            HttpServletResponse resp = (HttpServletResponse) response;
+            resp.setContentType("text/html");
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+            Map<String, Object> context = new HashMap<>();
+
+            if (isDev) {
+                context.put("exception", ex.getClass().getName());
+                context.put("message", ex.getMessage());
+
+                StringWriter sw = new StringWriter();
+                ex.printStackTrace(new PrintWriter(sw));
+                context.put("stacktrace", sw.toString());
+
+                renderTemplate(resp, "error-dev.peb", context);
+            } else {
+                renderTemplate(resp, "error.peb", context);
+            }
+        }
+    }
+
+    private void renderTemplate(
+            HttpServletResponse response,
+            String templateName,
+            Map<String, Object> context
+    ) throws IOException {
+        try (Writer writer = response.getWriter()) {
+            PebbleTemplate template = pebble.getTemplate(templateName);
+            template.evaluate(writer, context);
+        } catch (Exception e) {
+            LOGGER.error("Erreur lors du rendu du template : {}", templateName, e);
+            throw new IOException("Erreur de rendu du template", e);
+        }
+    }
+}
+
+```
+
+#### Comment consulter les logs
+
+- Exécution sans Docker : dans la console
+- Exécution avec Docker : `docker logs -f <nom du conteneur>`
+- Dans tous les cas : `<appender-ref ref="FILE"/>` génère un dossier `logs` qui contient les fichiers de log. 
+  Ajouter ce dossier à `.gitignore` serait une bonne idée.

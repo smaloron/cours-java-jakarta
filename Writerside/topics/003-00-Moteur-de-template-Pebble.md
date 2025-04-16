@@ -47,8 +47,14 @@ PebbleEngine engine = new PebbleEngine.Builder()
 
 ```java
 import io.pebbletemplates.pebble.PebbleEngine;
+import io.pebbletemplates.pebble.loader.ClasspathLoader;
 
-PebbleEngine engine = new PebbleEngine.Builder().build();
+ClasspathLoader loader = new ClasspathLoader();
+loader.setPrefix("templates");
+
+PebbleEngine pebbleEngine = new PebbleEngine.Builder()
+                .loader(loader)
+                .build();
 ```
 
 #### Le modèle
@@ -80,6 +86,7 @@ package fr.formation.web;
 
 import io.pebbletemplates.pebble.PebbleEngine;
 import io.pebbletemplates.pebble.template.PebbleTemplate;
+import io.pebbletemplates.pebble.loader.ClasspathLoader;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -93,16 +100,24 @@ import java.util.Map;
 @WebServlet("/hello-pebble")
 public class PebbleTestServlet extends HttpServlet {
 
-    private final PebbleEngine engine = new PebbleEngine.Builder().build();
+    private final PebbleEngine engine;
 
     @Override
     protected void doGet(
             HttpServletRequest req,
             HttpServletResponse resp
     ) throws ServletException, IOException {
+
+      ClasspathLoader loader = new ClasspathLoader();
+      loader.setPrefix("templates");
+
+      pebbleEngine = new PebbleEngine.Builder()
+              .loader(loader)
+              .build();
+        
         // Charger le template
         PebbleTemplate compiledTemplate = engine.getTemplate(
-                "templates/hello.peb"
+                "hello.peb"
         );
 
         // Créer les données pour le template
@@ -132,6 +147,7 @@ package fr.formation.utils;
 
 import io.pebbletemplates.pebble.PebbleEngine;
 import io.pebbletemplates.pebble.template.PebbleTemplate;
+import io.pebbletemplates.pebble.loader.ClasspathLoader;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -141,22 +157,33 @@ import java.util.Map;
 public abstract class AbstractServlet extends HttpServlet {
     private PebbleEngine pebbleEngine;
 
+    protected Map<String, Object> context;
+    
+
     @Override
     public void init() {
-        // Obtenir le moteur
-        pebbleEngine = new PebbleEngine.Builder().build();
+      ClasspathLoader loader = new ClasspathLoader();
+      loader.setPrefix("templates");
+
+      pebbleEngine = new PebbleEngine.Builder()
+                                     .loader(loader)
+                                     .build();
+      
+      // Initialisation du contexte
+      context = new HashMap<>(); 
     }
+    
+    
 
 
     protected void render(
             HttpServletResponse response,
-            String templateName,
-            Map<String, Object> context
-    ) throws Exception {
+            String templateName
+    ) throws IOException {
 
         // Obtenir le template Pebble
         PebbleTemplate template = pebbleEngine.getTemplate(
-                "templates/" + templateName
+                templateName
         );
 
         // Evaluer le template et envoyer la réponse HTTP
@@ -188,19 +215,18 @@ public class HelloPebbleServlet extends AbstractServlet {
     protected void doGet(
             HttpServletRequest request,
             HttpServletResponse response
-    ) {
+    ) throws IOException
+    {
 
-        // Préparer le contexte pour le template
-        Map<String, Object> context = new HashMap<>();
+        // Définir le contexte pour le template
+        // Le Map a été initialisé dans la classe parente
         context.put("title", "Accueil");
         context.put("name", "Alice");
 
-        try {
-            // Rendre le template
-            render(response, "hello.peb", context);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+       
+        // Rendre le template
+        render(response, "hello.peb");
+        
     }
 }
 ```
@@ -241,7 +267,7 @@ Tout comme Twig, Pebble supporte l'héritage de modèles et propose une syntaxe 
 **Utilisation du gabarit**
 
 ```twig
-{% extends "base.html" %}
+{% extends "layout.peb" %}
 
 {% block title %}Accueil{% endblock %}
 
@@ -262,6 +288,22 @@ Tout comme Twig, Pebble supporte l'héritage de modèles et propose une syntaxe 
     <h1>Bienvenue!</h1>
     <p>Cette page hérite de layout</p>
 {% endblock %}
+```
+
+Il faudra également ajouter l'inclusion des fichiers `.peb` dans la balise `<build>`de `pom.xml`.
+Cette instruction importe le contenu du dossier resources dans le fichier `.war` lors de l'empaquetage.
+Ici l'inclusion est totale `**/*` pare souci de simplicité et pour éviter d'oublier des resources importantes.
+
+
+```xml
+<resources>
+    <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+            <include>**/*</include>
+        </includes>
+    </resource>
+</resources>
 ```
 
 ## Boucles et conditions
