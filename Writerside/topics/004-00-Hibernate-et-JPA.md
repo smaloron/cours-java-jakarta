@@ -365,182 +365,280 @@ public class Product {
 
 ## Utilisation d'Hibernate
 
-### Persistence
+### Obtention d'une instance de `EntityManager`
 
-Pour persister une entité, il faut obtenir une instance de la classe `EntityManager`. 
+Pour agir sur une entité, il faut obtenir une instance de la classe `EntityManager`.
+
+Dans un contexte Web, il faut créer une instance de `EntityManager` qui sera disponible partout.
+Le plus efficace est d'utiliser l'injection de dépendance de `Spring`.
+Sans cela, il est possible de créer une classe `Singleton` qui utilisera toujours la même instance de `EntityManagerFactory`.
 
 
 ```java
+package fr.formation.jakarta.utils;
 
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
+/**
+ * Singleton pour obtenir un EntityManager
+ */
+public class JpaUtils {
 
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                "MyPersistenceUnit"
-        );
+    // Instance unique de EntityManagerFactory
+    private static final EntityManagerFactory emf;
 
-        // Création de l'EntityManager avec la fabrique
+    // Initialisation automatique lors du premier appel statique
+    // Une sorte de constructeur statique
+    static {
+        emf = Persistence.createEntityManagerFactory("pu");
+    }
+
+    // Constructeur privé pour empêcher l'instanciation
+    private JpaUtils() {}
+
+    /**
+     * Retourne un nouvel EntityManager
+     * @return EntityManager
+     */
+    public static EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
+
+    /**
+     * À appeler à l'arrêt de l'application pour libérer les ressources
+     */
+    public static void close() {
+        if (emf.isOpen()) {
+            emf.close();
+        }
+    }
+}
+```
+
+**Pourquoi ne pas toujours retourner la même instance de `EntityManager` ?**
+1. EntityManager n'est pas thread-safe Il ne peut pas être partagé entre plusieurs threads.
+   Si deux requêtes HTTP arrivent en même temps et utilisent le même EntityManager, ça provoque des erreurs très
+   subtiles ou carrément des exceptions (ConcurrentModificationException, IllegalStateException, etc.).
+
+2. Un `EntityManager` correspond à une "unité de travail"
+   C’est une session courte qui dure le temps d’une transaction ou d’une requête (souvent une méthode de service).
+
+3. Fuites de mémoire et transactions sales
+   Garder un `EntityManager` ouvert trop longtemps :
+
+    - retient les entités en mémoire (cache de premier niveau),
+
+    - empêche le GC de nettoyer correctement,
+
+    - peut conserver des transactions ouvertes par erreur.
+
+#### Comment fermer proprement `EntityManagerFactory` à l'arrêt de l'application ?
+
+Il faut intercepter l'événement avec un `Listener`.
+
+```java
+package fr.formation.jakarta.listener;
+
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
+
+/**
+ * Ferme EntityManagerFactory à l'arrêt de l'application
+ */
+@WebListener
+public class AppContextListener implements ServletContextListener {
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        // Fermeture de l'EMF à l'arrêt de l'application
+        JpaUtils.close();
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        // Rien à faire au démarrage pour l'instant
+    }
+}
+```
+
+
+### Persistence
+
+```java
+package fr.formation.jakarta.controller;
+
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet("/user/persist")
+public class HibernatePersistTest extends AbstractServlet {
+    @Override
+    protected void doGet(
+            HttpServletRequest req, 
+            HttpServletResponse resp
+    ) throws IOException 
+    {
         
-        // Création d'une entité
         User user = new User(
-                "Joe",
-                "joe@user.com",
-                32
+                "Severn", "sev@gmail.com", 57
         );
         
-        // Persistence d'une entité
-        EntityTransaction tx = em.getTransaction();
-        
-        tx.begin();
+        EntityManager em = JpaUtils.getEntityManager();
+        em.getTransaction().begin();
         em.persist(user);
-        tx.commit();
+        em.getTransaction().commit();
         
         em.close();
-        emf.clos();
-    }
-}    
 
+        context.put("user", user);
+
+        render(resp, "user/persist.peb");
+    }
+}
 ```
+
+Afficher l'utilisateur persisté dans 'persist.peb'.
 
 > Si Hibernate a été configuré en ce sens, la table sera créé automatiquement lors de la persistence. Il n'y a pas de 
 migrations à générer et à exécuter.
+
+#### Ajout d'un formulaire pour la persistence
+
+- Passer la logique de persistence dans une méthode doPost
+- Dans doGet afficher un formulaire
 
 
 ### Récupération d'une entité
 
 ```java
+package fr.formation.jakarta.controller;
 
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet("/user/one")
+public class HibernateReadOneTest extends AbstractServlet {
 
 
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                "MyPersistenceUnit"
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        EntityManager em = JpaUtils.getEntityManager();
+
+        User user = em.find(
+                User.class, 
+                Integer.valueOf(req.getParameter("id"))
         );
-
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
         
-        // Récupération d'une entité User dont l'id est 1
-        User user = em.find(User.class, 1);
-        
-        if(user != null){
-            System.out.prinln(user);
-        }
-
         em.close();
-        emf.clos();
-    }
-}    
 
+        context.put("userList", user);
+
+        render(resp, "user/one.peb");
+    }
+}
 ```
 
 ### Récupération d'une liste d'entités
 
 ```java
 
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
+package fr.formation.jakarta.controller;
+
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.List;
+
+@WebServlet("/user/list")
+public class HibernateReadAllTest extends AbstractServlet {
 
 
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                "MyPersistenceUnit"
+    @Override
+    protected void doGet(
+            HttpServletRequest req, 
+            HttpServletResponse resp
+    ) throws IOException 
+    {
+
+        EntityManager em = JpaUtils.getEntityManager();
+
+        TypedQuery<User> query = em.createQuery(
+                "select u from User u", 
+                User.class
         );
-
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
+        List<User> users = query.getResultList();
         
-        // Récupération d'une entité User dont l'id est 1
-        List<User> users = em.createQuery("SELECT u FROM User u", User.class).getResultList();
-        for (User user : users) {
-            System.out.println(user);
-        }
-
         em.close();
-        emf.clos();
-    }
-}    
+        
+        context.put("userList", users);
 
+        render(resp, "user/list.peb");
+    }
+}
 ```
 
 ### Suppression
 
 ```java
+package fr.formation.jakarta.controller;
 
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 
-public class Main {
+@WebServlet("/user/delete")
+public class HibernateDeleteOneTest extends AbstractServlet {
     
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                "MyPersistenceUnit"
+    @Override
+    protected void doGet(
+            HttpServletRequest req, 
+            HttpServletResponse resp
+    ) throws IOException 
+    {
+
+        EntityManager em = JpaUtils.getEntityManager();
+
+        User user = em.find(
+                User.class, 
+                Integer.valueOf(req.getParameter("id"))
         );
 
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
-
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        User user = em.find(User.class, 1);
-        if (user != null) {
-            em.remove(user);
-            tx.commit();
-            System.out.println("Utilisateur supprimé: " + user);
-        } else {
-            tx.rollback();
-            System.out.println("Utilisateur introuvable avec l'ID: 1");
-        }
-        
-
+        em.getTransaction().begin();
+        em.remove(user);
+        em.getTransaction().commit();
         em.close();
-        emf.clos();
+
+        resp.sendRedirect("/user/list");
     }
-}    
+}
 
 ```
 
@@ -550,98 +648,105 @@ Pour la mise à jour, si l'entité est gérée par l'ORM, il n'y a rien à faire
 effectuée lors du commit.
 
 ```java
+package fr.formation.jakarta.controller;
 
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet("/user/update")
+public class HibernateUpdateOneTest extends AbstractServlet {
 
 
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                "MyPersistenceUnit"
+    @Override
+    protected void doGet(
+            HttpServletRequest req,
+            HttpServletResponse resp
+    ) throws IOException
+    {
+
+        EntityManager em = JpaUtils.getEntityManager();
+
+        em.getTransaction().begin();
+
+        User user = em.find(
+                User.class,
+                Integer.valueOf(req.getParameter("id"))
         );
 
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
-
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        User user = em.find(User.class, 1);
         if (user != null) {
-            user.setUserName("Jane");
-            user.setEmail("Jane@user.com");
-            user.setAge(37);
-            
-            // Mise à jour automatique lors du commit
-            tx.commit();
-            System.out.println("Utilisateur mis à jour: " + user);
-        } else {
-            tx.rollback();
-            System.out.println("Utilisateur introuvable avec l'ID: 1");
+            user.setAge(
+                    Integer.parseInt(req.getParameter("age"))
+            );
+            em.getTransaction().commit();
         }
         
-
         em.close();
-        emf.clos();
-    }
-}  
 
-```
-
-#### Entité non gérée
-
-Dans le cas où l'entité ne provient pas de l'ORM, il faudra utiliser la méthode `merge` de `EntityManager`.
-
-```java
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
-
-
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                "MyPersistenceUnit"
-        );
-
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
-
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        User user = new User();
-
-            user.setId(1);
-            user.setUserName("Jane");
-            user.setEmail("Jane@user.com");
-            user.setAge(37);
-            
-            // Mise à jour
-            em.merge(user);
-            tx.commit();
-            System.out.println("Utilisateur mis à jour: " + user);
-            
-            em.close();
-            emf.clos();
+        resp.sendRedirect("/user/list");
     }
 }
+```
+
+#### Entité détachée, non gérée par l'ORM
+
+Dans le cas où l'entité ne provient pas de l'ORM, il faudra utiliser la méthode `merge` de `EntityManager`.
+Une entité est détachée quand l'`EntityManager` est fermé. Le cas se présente lors de la mise à jour d'une entité 
+qui a été sérialisée par exemple ou bien pour modifier une entité dont les données proviennent d'une requête SQL 
+sans ORM.
+
+```java
+package fr.formation.jakarta.controller;
+
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet("/user/update-detached")
+public class HibernateUpdateOneDetachedTest extends AbstractServlet {
+
+    @Override
+    protected void doGet(
+            HttpServletRequest req,
+            HttpServletResponse resp
+    ) throws IOException {
+
+        Integer id = Integer.valueOf(req.getParameter("id"));
+        Integer newAge = Integer.valueOf(req.getParameter("age"));
+
+        // Étape 1 : récupération de l'entité et fermeture de l'EntityManager
+        EntityManager em1 = JpaUtils.getEntityManager();
+        em1.getTransaction().begin();
+        User user = em1.find(User.class, id);
+        em1.getTransaction().commit();
+        em1.close(); // l'entité devient DÉTACHÉE
+
+        if (user != null) {
+            // Modification de l'objet détaché
+            user.setAge(newAge);
+
+            // Étape 2 : nouvelle transaction pour merger l'objet
+            EntityManager em2 = JpaUtils.getEntityManager();
+            em2.getTransaction().begin();
+            em2.merge(user); // ✅ merge de l'entité détachée
+            em2.getTransaction().commit();
+            em2.close();
+        }
+
+        resp.sendRedirect("/user/list");
+    }
+}
+
 ```
 
 ## Exercice
@@ -651,78 +756,72 @@ Créer une classe UserDAO qui réalise les opérations du CRUD.
 ### Correction UserDAO {collapsible="true"}
 
 ```java
-package fr.mvc.app.model.dao;
+package fr.formation.jakarta.model.dao;
 
-import fr.mvc.app.model.entity.User;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import fr.formation.jakarta.model.entity.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- * DAO pour l'entité User
- */
+// DAO pour l'entité User
 public class UserDAO {
+
+    private static final Logger LOGGER =
+            Logger.getLogger(UserDAO.class.getName());
 
     private EntityManager entityManager;
 
-    public UserDAO(String pu) {
-        entityManager = Persistence.createEntityManagerFactory(pu)
-                                   .createEntityManager();
+    public UserDAO(EntityManager manager) {
+        this.entityManager = manager;
     }
 
-    public void save(User user) {
+    // Méthode utilitaire pour exécuter une opération en transaction
+    private void executeInTransaction(Consumer<EntityManager> action) {
         EntityTransaction tx = entityManager.getTransaction();
         try {
             tx.begin();
-            entityManager.persist(user);
+            action.accept(entityManager);
             tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Transaction failed", e);
         }
     }
 
+    // Enregistre un utilisateur
+    public void save(User user) {
+        executeInTransaction(em -> em.persist(user));
+    }
+
+    // Recherche un utilisateur par son ID
     public User findById(Long id) {
         return entityManager.find(User.class, id);
     }
 
+    // Retourne tous les utilisateurs
     public List<User> findAll() {
-        return entityManager.createQuery("SELECT u FROM User u", User.class)
-                            .getResultList();
+        return entityManager
+                .createQuery("SELECT u FROM User u", User.class)
+                .getResultList();
     }
 
+    // Met à jour un utilisateur
     public void update(User user) {
-        EntityTransaction tx = entityManager.getTransaction();
-        try {
-            tx.begin();
-            entityManager.merge(user);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
-        }
+        executeInTransaction(em -> em.merge(user));
     }
 
-    public void deleteById(int id) {
-        EntityTransaction tx = entityManager.getTransaction();
-        try {
-            User user = this.findById(id);
-            if(user != null){
-                tx.begin();
-                entityManager.remove(user);
-                tx.commit();
+    // Supprime un utilisateur par ID
+    public void deleteById(Long id) {
+        executeInTransaction(em -> {
+            User user = em.find(User.class, id);
+            if (user != null) {
+                em.remove(user);
             }
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
-        }
-    }
-
-    public void close() {
-        if (entityManager != null) {
-            entityManager.close();
-        }
+        });
     }
 }
+
 ```

@@ -1,5 +1,5 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
-<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-04-16T08:23:42.62109"><title>Hibernate et JPA | Jakarta</title><script type="application/json" id="virtual-toc-data">[{"id":"d-finitions","level":0,"title":"Définitions","anchor":"#d-finitions"},{"id":"installation","level":0,"title":"Installation","anchor":"#installation"},{"id":"cr-ation-des-entit-s","level":0,"title":"Création des entités","anchor":"#cr-ation-des-entit-s"},{"id":"utilisation-d-hibernate","level":0,"title":"Utilisation d\u0027Hibernate","anchor":"#utilisation-d-hibernate"},{"id":"exercice","level":0,"title":"Exercice","anchor":"#exercice"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Hibernate et JPA | Jakarta"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Jakarta Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/004-00-hibernate-et-jpa.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Hibernate et JPA | Jakarta"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-04-17T08:14:36.051233"><title>Hibernate et JPA | Jakarta</title><script type="application/json" id="virtual-toc-data">[{"id":"d-finitions","level":0,"title":"Définitions","anchor":"#d-finitions"},{"id":"installation","level":0,"title":"Installation","anchor":"#installation"},{"id":"cr-ation-des-entit-s","level":0,"title":"Création des entités","anchor":"#cr-ation-des-entit-s"},{"id":"utilisation-d-hibernate","level":0,"title":"Utilisation d\u0027Hibernate","anchor":"#utilisation-d-hibernate"},{"id":"exercice","level":0,"title":"Exercice","anchor":"#exercice"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Hibernate et JPA | Jakarta"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Jakarta Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/004-00-hibernate-et-jpa.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Hibernate et JPA | Jakarta"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
     "@context": "http://schema.org",
     "@type": "WebPage",
     "@id": "writerside-documentation/004-00-hibernate-et-jpa.html#webpage",
@@ -201,322 +201,379 @@ public class Product {
 
     // Getters et setters
 }
-</div></section></section></section><section class="chapter"><h2 id="utilisation-d-hibernate" data-toc="utilisation-d-hibernate">Utilisation d'Hibernate</h2><section class="chapter"><h3 id="persistence" data-toc="persistence">Persistence</h3><p id="-v348eo_221">Pour persister une entit&eacute;, il faut obtenir une instance de la classe <code class="code" id="-v348eo_224">EntityManager</code>.</p><div class="code-block" data-lang="java">
+</div></section></section></section><section class="chapter"><h2 id="utilisation-d-hibernate" data-toc="utilisation-d-hibernate">Utilisation d'Hibernate</h2><section class="chapter"><h3 id="obtention-d-une-instance-de-entitymanager" data-toc="obtention-d-une-instance-de-entitymanager">Obtention d'une instance de <code class="code" id="-v348eo_229">EntityManager</code></h3><p id="-v348eo_223">Pour agir sur une entit&eacute;, il faut obtenir une instance de la classe <code class="code" id="-v348eo_230">EntityManager</code>.</p><p id="-v348eo_224">Dans un contexte Web, il faut cr&eacute;er une instance de <code class="code" id="-v348eo_231">EntityManager</code> qui sera disponible partout. Le plus efficace est d'utiliser l'injection de d&eacute;pendance de <code class="code" id="-v348eo_232">Spring</code>. Sans cela, il est possible de cr&eacute;er une classe <code class="code" id="-v348eo_233">Singleton</code> qui utilisera toujours la m&ecirc;me instance de <code class="code" id="-v348eo_234">EntityManagerFactory</code>.</p><div class="code-block" data-lang="java">
+package fr.formation.jakarta.utils;
 
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
-
-
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                &quot;MyPersistenceUnit&quot;
-        );
-
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
-        
-        // Création d'une entité
-        User user = new User(
-                &quot;Joe&quot;,
-                &quot;joe@user.com&quot;,
-                32
-        );
-        
-        // Persistence d'une entité
-        EntityTransaction tx = em.getTransaction();
-        
-        tx.begin();
-        em.persist(user);
-        tx.commit();
-        
-        em.close();
-        emf.clos();
-    }
-}    
-
-</div><aside class="prompt" data-type="tip" data-title="" id="-v348eo_223"><p id="-v348eo_225">Si Hibernate a &eacute;t&eacute; configur&eacute; en ce sens, la table sera cr&eacute;&eacute; automatiquement lors de la persistence. Il n'y a pas de migrations &agrave; g&eacute;n&eacute;rer et &agrave; ex&eacute;cuter.</p></aside></section><section class="chapter"><h3 id="r-cup-ration-d-une-entit" data-toc="r-cup-ration-d-une-entit">R&eacute;cup&eacute;ration d'une entit&eacute;</h3><div class="code-block" data-lang="java">
-
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
-
-
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                &quot;MyPersistenceUnit&quot;
-        );
-
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
-        
-        // Récupération d'une entité User dont l'id est 1
-        User user = em.find(User.class, 1);
-        
-        if(user != null){
-            System.out.prinln(user);
-        }
-
-        em.close();
-        emf.clos();
-    }
-}    
-
-</div></section><section class="chapter"><h3 id="r-cup-ration-d-une-liste-d-entit-s" data-toc="r-cup-ration-d-une-liste-d-entit-s">R&eacute;cup&eacute;ration d'une liste d'entit&eacute;s</h3><div class="code-block" data-lang="java">
-
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
-
-
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                &quot;MyPersistenceUnit&quot;
-        );
-
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
-        
-        // Récupération d'une entité User dont l'id est 1
-        List&lt;User&gt; users = em.createQuery(&quot;SELECT u FROM User u&quot;, User.class).getResultList();
-        for (User user : users) {
-            System.out.println(user);
-        }
-
-        em.close();
-        emf.clos();
-    }
-}    
-
-</div></section><section class="chapter"><h3 id="suppression" data-toc="suppression">Suppression</h3><div class="code-block" data-lang="java">
-
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
-
-
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                &quot;MyPersistenceUnit&quot;
-        );
-
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
-
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        User user = em.find(User.class, 1);
-        if (user != null) {
-            em.remove(user);
-            tx.commit();
-            System.out.println(&quot;Utilisateur supprimé: &quot; + user);
-        } else {
-            tx.rollback();
-            System.out.println(&quot;Utilisateur introuvable avec l'ID: 1&quot;);
-        }
-        
-
-        em.close();
-        emf.clos();
-    }
-}    
-
-</div></section><section class="chapter"><h3 id="mise-jour" data-toc="mise-jour">Mise &agrave; jour</h3><p id="-v348eo_229">Pour la mise &agrave; jour, si l'entit&eacute; est g&eacute;r&eacute;e par l'ORM, il n'y a rien &agrave; faire. Cette op&eacute;ration est automatiquement effectu&eacute;e lors du commit.</p><div class="code-block" data-lang="java">
-
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
-
-
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                &quot;MyPersistenceUnit&quot;
-        );
-
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
-
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        User user = em.find(User.class, 1);
-        if (user != null) {
-            user.setUserName(&quot;Jane&quot;);
-            user.setEmail(&quot;Jane@user.com&quot;);
-            user.setAge(37);
-            
-            // Mise à jour automatique lors du commit
-            tx.commit();
-            System.out.println(&quot;Utilisateur mis à jour: &quot; + user);
-        } else {
-            tx.rollback();
-            System.out.println(&quot;Utilisateur introuvable avec l'ID: 1&quot;);
-        }
-        
-
-        em.close();
-        emf.clos();
-    }
-}  
-
-</div><section class="chapter"><h4 id="entit-non-g-r-e" data-toc="entit-non-g-r-e">Entit&eacute; non g&eacute;r&eacute;e</h4><p id="-v348eo_232">Dans le cas o&ugrave; l'entit&eacute; ne provient pas de l'ORM, il faudra utiliser la m&eacute;thode <code class="code" id="-v348eo_234">merge</code> de <code class="code" id="-v348eo_235">EntityManager</code>.</p><div class="code-block" data-lang="java">
-import jakarta.persistence.*;
-import fr.mvc.app.model.entity.User;
-
-
-public class Main {
-    
-    public static EntityManager getManager(){
-        EntityManagerFactory emf;
-        // Création de la fabrique d'EntityManager
-        // L'argument correspond au nom de l'unité de persistence
-        // tel que définit dans persistence.xml
-        emf = Persistence.createEntityManagerFactory(
-                &quot;MyPersistenceUnit&quot;
-        );
-
-        // Création de l'EntityManager avec la fabrique
-        return emf.createEntityManager();
-    }
-    
-    public static void main(String[] args) {
-        EntityManager em = getManager();
-
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        User user = new User();
-
-            user.setId(1);
-            user.setUserName(&quot;Jane&quot;);
-            user.setEmail(&quot;Jane@user.com&quot;);
-            user.setAge(37);
-            
-            // Mise à jour
-            em.merge(user);
-            tx.commit();
-            System.out.println(&quot;Utilisateur mis à jour: &quot; + user);
-            
-            em.close();
-            emf.clos();
-    }
-}
-</div></section></section></section><section class="chapter"><h2 id="exercice" data-toc="exercice">Exercice</h2><p id="-v348eo_236">Cr&eacute;er une classe UserDAO qui r&eacute;alise les op&eacute;rations du CRUD.</p><section class="chapter"><div class="collapse"><div class="collapse__title"><h3 id="correction-userdao" data-toc="correction-userdao">Correction UserDAO</h3></div><div class="collapse__content"><div class="code-block" data-lang="java">
-package fr.mvc.app.model.dao;
-
-import fr.mvc.app.model.entity.User;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import java.util.List;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 /**
- * DAO pour l'entité User
+ * Singleton pour obtenir un EntityManager
  */
+public class JpaUtils {
+
+    // Instance unique de EntityManagerFactory
+    private static final EntityManagerFactory emf;
+
+    // Initialisation automatique lors du premier appel statique
+    // Une sorte de constructeur statique
+    static {
+        emf = Persistence.createEntityManagerFactory(&quot;pu&quot;);
+    }
+
+    // Constructeur privé pour empêcher l'instanciation
+    private JpaUtils() {}
+
+    /**
+     * Retourne un nouvel EntityManager
+     * @return EntityManager
+     */
+    public static EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
+    /**
+     * À appeler à l'arrêt de l'application pour libérer les ressources
+     */
+    public static void close() {
+        if (emf.isOpen()) {
+            emf.close();
+        }
+    }
+}
+</div><p id="-v348eo_226"><span class="control" id="-v348eo_235">Pourquoi ne pas toujours retourner la m&ecirc;me instance de <code class="code" id="-v348eo_236">EntityManager</code>?</span></p><ol class="list _decimal" id="-v348eo_227" type="1"><li class="list__item" id="-v348eo_237"><p id="-v348eo_240">EntityManager n'est pas thread-safe Il ne peut pas &ecirc;tre partag&eacute; entre plusieurs threads. Si deux requ&ecirc;tes HTTP arrivent en m&ecirc;me temps et utilisent le m&ecirc;me EntityManager, &ccedil;a provoque des erreurs tr&egrave;s subtiles ou carr&eacute;ment des exceptions (ConcurrentModificationException, IllegalStateException, etc.).</p></li><li class="list__item" id="-v348eo_238"><p id="-v348eo_241">Un <code class="code" id="-v348eo_242">EntityManager</code> correspond &agrave; une &quot;unit&eacute; de travail&quot; C&rsquo;est une session courte qui dure le temps d&rsquo;une transaction ou d&rsquo;une requ&ecirc;te (souvent une m&eacute;thode de service).</p></li><li class="list__item" id="-v348eo_239"><p id="-v348eo_243">Fuites de m&eacute;moire et transactions sales Garder un <code class="code" id="-v348eo_245">EntityManager</code> ouvert trop longtemps :</p><ul class="list _bullet" id="-v348eo_244"><li class="list__item" id="-v348eo_246"><p id="-v348eo_249">retient les entit&eacute;s en m&eacute;moire (cache de premier niveau),</p></li><li class="list__item" id="-v348eo_247"><p id="-v348eo_250">emp&ecirc;che le GC de nettoyer correctement,</p></li><li class="list__item" id="-v348eo_248"><p id="-v348eo_251">peut conserver des transactions ouvertes par erreur.</p></li></ul></li></ol><section class="chapter"><h4 id="comment-fermer-proprement-entitymanagerfactory-l-arr-t-de-l-application" data-toc="comment-fermer-proprement-entitymanagerfactory-l-arr-t-de-l-application">Comment fermer proprement <code class="code" id="-v348eo_255">EntityManagerFactory</code> &agrave; l'arr&ecirc;t de l'application ?</h4><p id="-v348eo_253">Il faut intercepter l'&eacute;v&eacute;nement avec un <code class="code" id="-v348eo_256">Listener</code>.</p><div class="code-block" data-lang="java">
+package fr.formation.jakarta.listener;
+
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
+
+/**
+ * Ferme EntityManagerFactory à l'arrêt de l'application
+ */
+@WebListener
+public class AppContextListener implements ServletContextListener {
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        // Fermeture de l'EMF à l'arrêt de l'application
+        JpaUtils.close();
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        // Rien à faire au démarrage pour l'instant
+    }
+}
+</div></section></section><section class="chapter"><h3 id="persistence" data-toc="persistence">Persistence</h3><div class="code-block" data-lang="java">
+package fr.formation.jakarta.controller;
+
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet(&quot;/user/persist&quot;)
+public class HibernatePersistTest extends AbstractServlet {
+    @Override
+    protected void doGet(
+            HttpServletRequest req, 
+            HttpServletResponse resp
+    ) throws IOException 
+    {
+        
+        User user = new User(
+                &quot;Severn&quot;, &quot;sev@gmail.com&quot;, 57
+        );
+        
+        EntityManager em = JpaUtils.getEntityManager();
+        em.getTransaction().begin();
+        em.persist(user);
+        em.getTransaction().commit();
+        
+        em.close();
+
+        context.put(&quot;user&quot;, user);
+
+        render(resp, &quot;user/persist.peb&quot;);
+    }
+}
+</div><p id="-v348eo_258">Afficher l'utilisateur persist&eacute; dans 'persist.peb'.</p><aside class="prompt" data-type="tip" data-title="" id="-v348eo_259"><p id="-v348eo_261">Si Hibernate a &eacute;t&eacute; configur&eacute; en ce sens, la table sera cr&eacute;&eacute; automatiquement lors de la persistence. Il n'y a pas de migrations &agrave; g&eacute;n&eacute;rer et &agrave; ex&eacute;cuter.</p></aside><section class="chapter"><h4 id="ajout-d-un-formulaire-pour-la-persistence" data-toc="ajout-d-un-formulaire-pour-la-persistence">Ajout d'un formulaire pour la persistence</h4><ul class="list _bullet" id="-v348eo_262"><li class="list__item" id="-v348eo_263"><p id="-v348eo_265">Passer la logique de persistence dans une m&eacute;thode doPost</p></li><li class="list__item" id="-v348eo_264"><p id="-v348eo_266">Dans doGet afficher un formulaire</p></li></ul></section></section><section class="chapter"><h3 id="r-cup-ration-d-une-entit" data-toc="r-cup-ration-d-une-entit">R&eacute;cup&eacute;ration d'une entit&eacute;</h3><div class="code-block" data-lang="java">
+package fr.formation.jakarta.controller;
+
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet(&quot;/user/one&quot;)
+public class HibernateReadOneTest extends AbstractServlet {
+
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        EntityManager em = JpaUtils.getEntityManager();
+
+        User user = em.find(
+                User.class, 
+                Integer.valueOf(req.getParameter(&quot;id&quot;))
+        );
+        
+        em.close();
+
+        context.put(&quot;userList&quot;, user);
+
+        render(resp, &quot;user/one.peb&quot;);
+    }
+}
+</div></section><section class="chapter"><h3 id="r-cup-ration-d-une-liste-d-entit-s" data-toc="r-cup-ration-d-une-liste-d-entit-s">R&eacute;cup&eacute;ration d'une liste d'entit&eacute;s</h3><div class="code-block" data-lang="java">
+
+package fr.formation.jakarta.controller;
+
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.List;
+
+@WebServlet(&quot;/user/list&quot;)
+public class HibernateReadAllTest extends AbstractServlet {
+
+
+    @Override
+    protected void doGet(
+            HttpServletRequest req, 
+            HttpServletResponse resp
+    ) throws IOException 
+    {
+
+        EntityManager em = JpaUtils.getEntityManager();
+
+        TypedQuery&lt;User&gt; query = em.createQuery(
+                &quot;select u from User u&quot;, 
+                User.class
+        );
+        List&lt;User&gt; users = query.getResultList();
+        
+        em.close();
+        
+        context.put(&quot;userList&quot;, users);
+
+        render(resp, &quot;user/list.peb&quot;);
+    }
+}
+</div></section><section class="chapter"><h3 id="suppression" data-toc="suppression">Suppression</h3><div class="code-block" data-lang="java">
+package fr.formation.jakarta.controller;
+
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet(&quot;/user/delete&quot;)
+public class HibernateDeleteOneTest extends AbstractServlet {
+    
+    @Override
+    protected void doGet(
+            HttpServletRequest req, 
+            HttpServletResponse resp
+    ) throws IOException 
+    {
+
+        EntityManager em = JpaUtils.getEntityManager();
+
+        User user = em.find(
+                User.class, 
+                Integer.valueOf(req.getParameter(&quot;id&quot;))
+        );
+
+        em.getTransaction().begin();
+        em.remove(user);
+        em.getTransaction().commit();
+        em.close();
+
+        resp.sendRedirect(&quot;/user/list&quot;);
+    }
+}
+
+</div></section><section class="chapter"><h3 id="mise-jour" data-toc="mise-jour">Mise &agrave; jour</h3><p id="-v348eo_270">Pour la mise &agrave; jour, si l'entit&eacute; est g&eacute;r&eacute;e par l'ORM, il n'y a rien &agrave; faire. Cette op&eacute;ration est automatiquement effectu&eacute;e lors du commit.</p><div class="code-block" data-lang="java">
+package fr.formation.jakarta.controller;
+
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet(&quot;/user/update&quot;)
+public class HibernateUpdateOneTest extends AbstractServlet {
+
+
+    @Override
+    protected void doGet(
+            HttpServletRequest req,
+            HttpServletResponse resp
+    ) throws IOException
+    {
+
+        EntityManager em = JpaUtils.getEntityManager();
+
+        em.getTransaction().begin();
+
+        User user = em.find(
+                User.class,
+                Integer.valueOf(req.getParameter(&quot;id&quot;))
+        );
+
+        if (user != null) {
+            user.setAge(
+                    Integer.parseInt(req.getParameter(&quot;age&quot;))
+            );
+            em.getTransaction().commit();
+        }
+        
+        em.close();
+
+        resp.sendRedirect(&quot;/user/list&quot;);
+    }
+}
+</div><section class="chapter"><h4 id="entit-d-tach-e-non-g-r-e-par-l-orm" data-toc="entit-d-tach-e-non-g-r-e-par-l-orm">Entit&eacute; d&eacute;tach&eacute;e, non g&eacute;r&eacute;e par l'ORM</h4><p id="-v348eo_273">Dans le cas o&ugrave; l'entit&eacute; ne provient pas de l'ORM, il faudra utiliser la m&eacute;thode <code class="code" id="-v348eo_275">merge</code> de <code class="code" id="-v348eo_276">EntityManager</code>. Une entit&eacute; est d&eacute;tach&eacute;e quand l' <code class="code" id="-v348eo_277">EntityManager</code> est ferm&eacute;. Le cas se pr&eacute;sente lors de la mise &agrave; jour d'une entit&eacute; qui a &eacute;t&eacute; s&eacute;rialis&eacute;e par exemple ou bien pour modifier une entit&eacute; dont les donn&eacute;es proviennent d'une requ&ecirc;te SQL sans ORM.</p><div class="code-block" data-lang="java">
+package fr.formation.jakarta.controller;
+
+import fr.formation.jakarta.model.entity.User;
+import fr.formation.jakarta.utils.JpaUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet(&quot;/user/update-detached&quot;)
+public class HibernateUpdateOneDetachedTest extends AbstractServlet {
+
+    @Override
+    protected void doGet(
+            HttpServletRequest req,
+            HttpServletResponse resp
+    ) throws IOException {
+
+        Integer id = Integer.valueOf(req.getParameter(&quot;id&quot;));
+        Integer newAge = Integer.valueOf(req.getParameter(&quot;age&quot;));
+
+        // Étape 1 : récupération de l'entité et fermeture de l'EntityManager
+        EntityManager em1 = JpaUtils.getEntityManager();
+        em1.getTransaction().begin();
+        User user = em1.find(User.class, id);
+        em1.getTransaction().commit();
+        em1.close(); // l'entité devient DÉTACHÉE
+
+        if (user != null) {
+            // Modification de l'objet détaché
+            user.setAge(newAge);
+
+            // Étape 2 : nouvelle transaction pour merger l'objet
+            EntityManager em2 = JpaUtils.getEntityManager();
+            em2.getTransaction().begin();
+            em2.merge(user); // ✅ merge de l'entité détachée
+            em2.getTransaction().commit();
+            em2.close();
+        }
+
+        resp.sendRedirect(&quot;/user/list&quot;);
+    }
+}
+
+</div></section></section></section><section class="chapter"><h2 id="exercice" data-toc="exercice">Exercice</h2><p id="-v348eo_278">Cr&eacute;er une classe UserDAO qui r&eacute;alise les op&eacute;rations du CRUD.</p><section class="chapter"><div class="collapse"><div class="collapse__title"><h3 id="correction-userdao" data-toc="correction-userdao">Correction UserDAO</h3></div><div class="collapse__content"><div class="code-block" data-lang="java">
+package fr.formation.jakarta.model.dao;
+
+import fr.formation.jakarta.model.entity.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+// DAO pour l'entité User
 public class UserDAO {
+
+    private static final Logger LOGGER =
+            Logger.getLogger(UserDAO.class.getName());
 
     private EntityManager entityManager;
 
-    public UserDAO(String pu) {
-        entityManager = Persistence.createEntityManagerFactory(pu)
-                                   .createEntityManager();
+    public UserDAO(EntityManager manager) {
+        this.entityManager = manager;
     }
 
-    public void save(User user) {
+    // Méthode utilitaire pour exécuter une opération en transaction
+    private void executeInTransaction(Consumer&lt;EntityManager&gt; action) {
         EntityTransaction tx = entityManager.getTransaction();
         try {
             tx.begin();
-            entityManager.persist(user);
+            action.accept(entityManager);
             tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, &quot;Transaction failed&quot;, e);
         }
     }
 
+    // Enregistre un utilisateur
+    public void save(User user) {
+        executeInTransaction(em -&gt; em.persist(user));
+    }
+
+    // Recherche un utilisateur par son ID
     public User findById(Long id) {
         return entityManager.find(User.class, id);
     }
 
+    // Retourne tous les utilisateurs
     public List&lt;User&gt; findAll() {
-        return entityManager.createQuery(&quot;SELECT u FROM User u&quot;, User.class)
-                            .getResultList();
+        return entityManager
+                .createQuery(&quot;SELECT u FROM User u&quot;, User.class)
+                .getResultList();
     }
 
+    // Met à jour un utilisateur
     public void update(User user) {
-        EntityTransaction tx = entityManager.getTransaction();
-        try {
-            tx.begin();
-            entityManager.merge(user);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
-        }
+        executeInTransaction(em -&gt; em.merge(user));
     }
 
-    public void deleteById(int id) {
-        EntityTransaction tx = entityManager.getTransaction();
-        try {
-            User user = this.findById(id);
-            if(user != null){
-                tx.begin();
-                entityManager.remove(user);
-                tx.commit();
+    // Supprime un utilisateur par ID
+    public void deleteById(Long id) {
+        executeInTransaction(em -&gt; {
+            User user = em.find(User.class, id);
+            if (user != null) {
+                em.remove(user);
             }
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
-        }
-    }
-
-    public void close() {
-        if (entityManager != null) {
-            entityManager.close();
-        }
+        });
     }
 }
-</div></div></div></section></section><div class="last-modified">Last modified: 16 avril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="004-00-les-filtres-http.html" class="navigation-links__prev">Les filtres HTTP</a><a href="004-01-les-associations.html" class="navigation-links__next">Les associations</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.js"></script></body></html>
+
+</div></div></div></section></section><div class="last-modified">Last modified: 17 avril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="004-00-les-filtres-http.html" class="navigation-links__prev">Les filtres HTTP</a><a href="004-01-les-associations.html" class="navigation-links__next">Les associations</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.js"></script></body></html>

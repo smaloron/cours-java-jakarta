@@ -859,7 +859,7 @@ public class AddToCartServlet extends AbstractServlet {
 }
 ```
 
-**Ajout de la méthode `findById£ dans CameraService**
+**Ajout de la méthode `findById` dans CameraService**
 
 ```java
 public VintageCamera findById(int id) {
